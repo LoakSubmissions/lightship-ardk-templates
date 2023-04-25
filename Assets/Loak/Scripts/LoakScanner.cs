@@ -9,11 +9,15 @@ using Niantic.ARDK.Extensions.Meshing;
 public class LoakScanner : MonoBehaviour
 {
     [Header("Config")]
+    [Tooltip("Number of mesh blocks required before scanning is complete.")]
     public int scanThreshold = 20;
+    [Tooltip("True if the scan should begin immediately on Start. Set to false if you wish to start it manually.")]
     [SerializeField] private bool autoStart = true;
 
     [Header("Events")]
+    [Tooltip("Invoked when the scan initially starts and the UI turns on.")]
     public UnityEvent OnScanStart = new UnityEvent();
+    [Tooltip("Invoked when the scan finishes and the UI turns off.")]
     public UnityEvent OnScanEnd = new UnityEvent();
 
     private GameObject scanCanvas;
@@ -25,6 +29,7 @@ public class LoakScanner : MonoBehaviour
     private float scanProgress = 0f;
     private bool scanning = false;
 
+    // Sets up all private reference variables and begins scan if auto start enabled.
     void Start()
     {
         scanCanvas = transform.GetComponentInChildren<Canvas>(true).gameObject;
@@ -43,6 +48,7 @@ public class LoakScanner : MonoBehaviour
             StartScan();
     }
 
+    // Resets UI and begins the scan.
     public void StartScan()
     {
         fillBar.fillAmount = 0f;
@@ -52,6 +58,7 @@ public class LoakScanner : MonoBehaviour
         OnScanStart.Invoke();
     }
 
+    // Updates the UI based on scan progress. Ends the scan if progress bar full.
     void Update()
     {
         if (!scanning)
@@ -66,6 +73,7 @@ public class LoakScanner : MonoBehaviour
         }
     }
 
+    // Call if you wish to end the scan early. Set argument to true if you want to skip the complete delay.
     public void ForceEndScan(bool immediate)
     {
         if (immediate)
@@ -79,6 +87,7 @@ public class LoakScanner : MonoBehaviour
         }
     }
 
+    // Sets UI to complete values, delays, then turns off the UI.
     private IEnumerator EndScan()
     {
         fillBar.fillAmount = 1f;
