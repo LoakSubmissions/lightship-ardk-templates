@@ -1,16 +1,18 @@
 # Loak Lightship ARDK Template
 
-A simple template project for Lightship ARDK experiences developed for submission to the Loak platform.
+A simple template project for Lightship ARDK experiences with useful tools from the Loak team.
 
 ## Description
 
-This repo can be forked or cloned and used to create Lightship AR experiences for submission to the Loak platform. It is not required for a project to be submitted or considered but is a tool to help you get started faster. We provide several of our in-house tools and assets in this repo so you can focus on making a great experience rather than spending time on small details.
+This repo can be forked or cloned and used to create Lightship AR experiences. It is a tool to help you get started faster in which we provide several of our in-house tools and assets so you can focus on making a great experience rather than spending time on small details.
+
+This template is also made to be perfectly compatible with the Loak platform and makes submission easy!
 
 ## Getting Started
 
 ### Dependencies
 
-* Unity Editor version 2021.3.9f1+ (This template and the Loak app were created with this version and may have problems with newer versions.)
+* Unity Editor version 2021.3.9f1+ (This template was created with this version and may have problems with newer versions.)
 * Lightship ARDK v2.5.1 (included in the repo)
 * Gradle v6.9.4+
 
@@ -23,7 +25,7 @@ This repo can be forked or cloned and used to create Lightship AR experiences fo
 * Exit the preferences window and find your project view.
 * In the project view, go to Resources > ARDK and select the ARDKAuthConfig asset to view in the inspector.
 * Fill in the API Key field by following steps 2 and 3 of this guide: [Authentication](https://lightship.dev/docs/ardk/ardk_fundamentals/authentication.html#doxid-authentication)
-* You can rename the "Your Project" folder in Assets to the name of your experience. Please try and keep all of your custom assets inside this folder for easier submission and review.
+* You can rename the "Your Project" folder in Assets to the name of your experience.
 
 ## Help
 
@@ -31,7 +33,7 @@ This repo can be forked or cloned and used to create Lightship AR experiences fo
 
 To use the scanner, just drag the prefab into your scene. You can find the Loak Scanner prefab by searching in the Project window or at Assets/Loak/Prefabs.
 
-Ensure that you have an ARMeshManager component somewhere in your scene or the scanner will not work. If you don't already have one you can add it to the Loak Scanner object or anywhere else as you see fit. We recommend creating your own object to house your Lightship scripts.
+Ensure that you have Lightships ARMeshManager component somewhere in your scene or the scanner will not work. If you don't already have one you can add it to the Loak Scanner object or anywhere else as you see fit. We recommend creating your own object to house your Lightship scripts.
 
 After adding the prefab to your scene you can customize its behavior in the inspector. Each value has a tooltip to help you understand what it does. The most important value is the Scan Threshold. This value determines how much mesh needs to be generated before the scan is complete. You will likely need to adjust this value up or down depending on the needs of your experience and your ARMeshManager settings.
 
