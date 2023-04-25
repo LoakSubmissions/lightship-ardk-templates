@@ -29,6 +29,10 @@ This template is also made to be perfectly compatible with the Loak platform and
 
 ## Help
 
+### What can I do with this template?
+
+Anything! The scene included is a barebones ARDK setup that can be used in any way you see fit. If you need any ideas or want to get more familiar with what the ARDK provides, check out the [Lightship wesbite](https://lightship.dev/). You can also check out the experiences hosted on our platform to see what us and other people have made with these tools: [Our Website](https://www.loak.co/)
+
 ### How do I use the Loak Scanner?
 
 To use the scanner, just drag the prefab into your scene. You can find the Loak Scanner prefab by searching in the Project window or at Assets/Loak/Prefabs.
