@@ -16,13 +16,14 @@ This repo can be forked or cloned and used to create Lightship AR experiences fo
 
 ### Installing
 
-* Fork or clone this repo to your local dev environment
-* Open with a supported Unity version
-* Go to Edit > Preferences > External Tools and scroll to the bottom
+* Fork or clone this repo to your local dev environment.
+* Open with a supported Unity version.
+* Go to Edit > Preferences > External Tools and scroll to the bottom.
 * Ensure that "Gradle installed with Unity" is unchecked and the path is pointing to your Gradle v6.9.4+ binaries.
-* Exit the preferences window and find your project view
-* In the project view, go to Resources > ARDK and select the ARDKAuthConfig asset to view in the inspector
+* Exit the preferences window and find your project view.
+* In the project view, go to Resources > ARDK and select the ARDKAuthConfig asset to view in the inspector.
 * Fill in the API Key field by following steps 2 and 3 of this guide: [Authentication](https://lightship.dev/docs/ardk/ardk_fundamentals/authentication.html#doxid-authentication)
+* You can rename the "Your Project" folder in Assets to the name of your experience. Please try and keep all of your custom assets inside this folder for easier submission and review.
 
 ## Help
 
