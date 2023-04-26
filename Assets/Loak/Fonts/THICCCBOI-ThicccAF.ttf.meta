@@ -1,0 +1,27 @@
+fileFormatVersion: 2
+guid: 9a14217f0356b480c93324f68d3611b0
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontNames:
+  - THICCCBOI
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: c9a7a52aec95b4c4cba037e150a6b4ba, type: 3}
+  - {fileID: 12800000, guid: 5a7d6e996ee1746e7b049bb38b82990d, type: 3}
+  - {fileID: 12800000, guid: 6357603e319cc435cb38d4d6fda0d93e, type: 3}
+  - {fileID: 12800000, guid: 058b558b0916b418bae084864aec05bf, type: 3}
+  - {fileID: 12800000, guid: 031496a1778094f16ab519503cab7668, type: 3}
+  - {fileID: 12800000, guid: 4a4c9636a5f1e4ffc87c84ae285e5dd1, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
