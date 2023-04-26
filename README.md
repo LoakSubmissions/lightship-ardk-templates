@@ -26,6 +26,7 @@ This template is also made to be perfectly compatible with the Loak platform and
 * In the project view, go to Resources > ARDK and select the ARDKAuthConfig asset to view in the inspector.
 * Fill in the API Key field by following steps 2 and 3 of this guide: [Authentication](https://lightship.dev/docs/ardk/ardk_fundamentals/authentication.html#doxid-authentication)
 * You can rename the "Your Project" folder in Assets to the name of your experience.
+* Choose a scene template that fits your needs! We provide several, each with different features already set up for you.
 
 ## Help
 
@@ -35,9 +36,9 @@ Anything! The scene included is a barebones ARDK setup that can be used in any w
 
 ### How do I use the Loak Scanner?
 
-To use the scanner, just drag the prefab into your scene. You can find the Loak Scanner prefab by searching in the Project window or at Assets/Loak/Prefabs.
+The "Template (Meshing)" scene has it set up already, but if you wish to use it elsewhere just drag the prefab into your scene. You can find the Loak Scanner prefab by searching in the Project window or at Assets/Loak/Prefabs.
 
-Ensure that you have Lightships ARMeshManager component somewhere in your scene or the scanner will not work. If you don't already have one you can add it to the Loak Scanner object or anywhere else as you see fit. We recommend creating your own object to house your Lightship scripts.
+Ensure that you have Lightships ARMeshManager component somewhere in your scene or the scanner will not work. If you don't already have one you can add it to the Loak Scanner object or anywhere else as you see fit. We recommend creating your own object to house your Lightship scripts. Don't forget that your mesh root object needs to have a negative y scale.
 
 After adding the prefab to your scene you can customize its behavior in the inspector. Each value has a tooltip to help you understand what it does. The most important value is the Scan Threshold. This value determines how much mesh needs to be generated before the scan is complete. You will likely need to adjust this value up or down depending on the needs of your experience and your ARMeshManager settings.
 
