@@ -44,6 +44,8 @@ public class LoakScanner : MonoBehaviour
             return;
         }
 
+        meshMan.GenerateUnityMeshes = true;
+
         if (autoStart)
             StartScan();
     }
