@@ -1,32 +1,43 @@
 # Loak Lightship ARDK Template
 
-A simple template project for Lightship ARDK experiences with useful tools from the Loak team.
-
-## Description
-
-This repo can be forked or cloned and used to create Lightship AR experiences. It is a tool to help you get started faster in which we provide several of our in-house tools and assets so you can focus on making a great experience rather than spending time on small details.
-
-This template is also made to be perfectly compatible with the Loak platform and makes submission easy!
+A simple template project that provides useful tools for setting up a project with [Niantic's Lightship ARDK](https://lightship.dev/)
 
 ## Getting Started
+First, ensure you have the following installed:
+- [Unity Hub](https://unity.com/download): latest
+- [Unity Editor](https://unity.com/releases/editor/archive): 2021.3.9f1+
+- [Gradle](https://gradle.org/releases/): v6.9.4+ (Android Only)
 
-### Dependencies
+Next, clone the repository wherever you keep your code:
+```
+git clone https://github.com/LoakSubmissions/lightship-ardk-template.git
+```
 
-* Unity Editor version 2021.3.9f1+ (This template was created with this version and may have problems with newer versions.)
-* Lightship ARDK v2.5.1 (included in the repo)
-* Gradle v6.9.4+
+## Setup
+### Authenticating Lightship ARDK
+1. Create a Lightship account [here](https://lightship.dev/signin)
+2. In the Lighship developer dashboard, create a new project, and copy the API key
+3. Then, in the Unity project view, go to `Assets > Resources > ARDK` and select the `ARDKAuthConfig`
+4. Paste your API key in the `Api Key` field
 
-### Installing
+If you get lost, reference the [official Lightship ARDK authentication guide](https://lightship.dev/docs/ardk/ardk_fundamentals/authentication.html#doxid-authentication)
 
-* Fork or clone this repo to your local dev environment.
-* Open with a supported Unity version.
-* Go to Edit > Preferences > External Tools and scroll to the bottom.
-* Ensure that "Gradle installed with Unity" is unchecked and the path is pointing to your Gradle v6.9.4+ binaries.
-* Exit the preferences window and find your project view.
-* In the project view, go to Resources > ARDK and select the ARDKAuthConfig asset to view in the inspector.
-* Fill in the API Key field by following steps 2 and 3 of this guide: [Authentication](https://lightship.dev/docs/ardk/ardk_fundamentals/authentication.html#doxid-authentication)
-* You can rename the "Your Project" folder in Assets to the name of your experience.
-* Choose a scene template that fits your needs! We provide several, each with different features already set up for you.
+### Choosing a scene template
+Scene templates make it easy to get building with Lightship ARDK
+1. In the Unity project, navigate to `Assets > Loak > Scene Templates`
+2. Browse through the different scenes and choose one that works for you!
+
+## Building
+### For iOS
+- If not already set to the iOS platform, please select `iOS` and then click `Switch Platform`
+- Click `Build`
+
+### For Android
+- Go to `Edit > Preferences > External Tools` and scroll to the bottom.
+- Ensure that "Gradle installed with Unity" is unchecked and the path is pointing to your Gradle v6.9.4+ binaries
+- Navigate to `File > Build Settings`
+- If not already set to the Android platform, please select `Android` and then click `Switch Platform`
+- Click `Build`
 
 ## Help
 
