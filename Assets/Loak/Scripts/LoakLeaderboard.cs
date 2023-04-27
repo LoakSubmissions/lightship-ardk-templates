@@ -5,17 +5,22 @@ using UnityEngine.UI;
 
 namespace Loak.Unity
 {
+    // Controller for a simple to use leaderboard prefab.
     public class LoakLeaderboard : MonoBehaviour
     {
         public static LoakLeaderboard Instance;
 
         private enum LeaderboardConfiguration {Friend, Global, Both}
+        [Tooltip("Use this to choose what tabs are available on your leaderboard.")]
         [SerializeField] private LeaderboardConfiguration leaderboardConfiguration = LeaderboardConfiguration.Both;
 
+        [Tooltip("Specifies the number of entries to be displayed on the leaderboard.")]
         public int numberOfEntries = 10;
+        [Tooltip("Username that should have a highlighted entry on the leaderboard.")]
+        public string highlightedName = "You";
 
-        private LeaderboardUIBehaviour listItemPrefab;
-        private List<LeaderboardUIBehaviour> listItems = new List<LeaderboardUIBehaviour>();
+        private LeaderboardListItem listItemPrefab;
+        private List<LeaderboardListItem> listItems = new List<LeaderboardListItem>();
 
         private Canvas canvas;
         private GameObject loadingView;
@@ -25,12 +30,13 @@ namespace Loak.Unity
         private Tab friendsTab;
         private Tab globalTab;
 
+        // Just sets the singleton reference.
         void Awake()
         {
             Instance = this;
         }
 
-        // Start is called before the first frame update
+        // Grabs all necessary references and populates the leaderboard items.
         void Start()
         {
             canvas = GetComponent<Canvas>();
@@ -59,7 +65,7 @@ namespace Loak.Unity
                     break;
             }
 
-            listItemPrefab = GetComponentInChildren<LeaderboardUIBehaviour>(true);
+            listItemPrefab = GetComponentInChildren<LeaderboardListItem>(true);
             list = listItemPrefab.transform.parent.parent.parent.gameObject;
             listItemPrefab.gameObject.SetActive(false);
 
@@ -77,6 +83,10 @@ namespace Loak.Unity
             list.SetActive(false);
         }
 
+        /// <summary>
+        /// Sets the list of leaderboard entries that the friend tab displays.
+        /// </summary>
+        /// <param name="entries">An ordered list of entries containing username and score.</param>
         public void SetFriendEntries(List<(string, long)> entries)
         {
             friendsTab.Update(entries);
@@ -93,6 +103,10 @@ namespace Loak.Unity
             }
         }
 
+        /// <summary>
+        /// Sets the list of leaderboard entries that the global tab displays.
+        /// </summary>
+        /// <param name="entries">An ordered list of entries containing username and score.</param>
         public void SetGlobalEntries(List<(string, long)> entries)
         {
             globalTab.Update(entries);
@@ -109,11 +123,17 @@ namespace Loak.Unity
             }
         }
 
+        /// <summary>
+        /// Shows the leaderboard.
+        /// </summary>
         public void Show()
         {
             canvas.enabled = true;
         }
 
+        /// <summary>
+        /// Hides the leaderboard.
+        /// </summary>
         public void Hide()
         {
             canvas.enabled = false;
@@ -137,7 +157,7 @@ namespace Loak.Unity
                 return;
             }
 
-            LeaderboardUIBehaviour item;
+            LeaderboardListItem item;
             for (int i = 0; i < numberOfEntries; i++)
             {
                 if (i >= entries.Count)
@@ -148,6 +168,7 @@ namespace Loak.Unity
 
                 item = listItems[i];
                 item.SetUIText(entries[i].Item1, entries[i].Item2.ToString());
+                item.Highlight(entries[i].Item1 == highlightedName ? true : false);
                 item.gameObject.SetActive(true);
             }
         }

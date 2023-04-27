@@ -10,6 +10,8 @@ namespace Loak.Unity
 {
     public class LoakScanner : MonoBehaviour
     {
+        public static LoakScanner Instance;
+
         [Header("Config")]
         [Tooltip("Number of mesh blocks required before scanning is complete.")]
         public int scanThreshold = 20;
@@ -30,6 +32,11 @@ namespace Loak.Unity
         private string completeString = "Mesh complete!";
         private float scanProgress = 0f;
         private bool scanning = false;
+
+        void Awake()
+        {
+            Instance = this;
+        }
 
         // Sets up all private reference variables and begins scan if auto start enabled.
         void Start()
@@ -52,7 +59,9 @@ namespace Loak.Unity
                 StartScan();
         }
 
-        // Resets UI and begins the scan.
+        /// <summary>
+        /// Resets UI and begins the scan.
+        /// </summary>
         public void StartScan()
         {
             fillBar.fillAmount = 0f;
@@ -77,7 +86,10 @@ namespace Loak.Unity
             }
         }
 
-        // Call if you wish to end the scan early. Set argument to true if you want to skip the complete delay.
+        /// <summary>
+        /// Forcefully ends the scan early.
+        /// </summary>
+        /// <param name="immediate">Set to true if you want to skip the complete delay.</param>
         public void ForceEndScan(bool immediate)
         {
             if (immediate)
