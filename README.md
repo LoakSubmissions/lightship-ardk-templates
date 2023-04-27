@@ -27,6 +27,11 @@ Scene templates make it easy to get building with Lightship ARDK
 1. In the Unity project, navigate to `Assets > Loak > Scene Templates`
 2. Browse through the different scenes and choose one that works for you!
 
+For information about the scene templates we provide, check them out at the links below:
+* [Empty Template](Assets/Loak/Scene%20Templates/Empty%20Template.md)
+* [Meshing Template](Assets/Loak/Scene%20Templates/Meshing%20Template.md)
+* [Loak Essentials](Assets/Loak/Scene%20Templates/Loak%20Essentials.md)
+
 ## Building
 ### For iOS
 - If not already set to the iOS platform, please select `iOS` and then click `Switch Platform`
@@ -39,23 +44,15 @@ Scene templates make it easy to get building with Lightship ARDK
 - If not already set to the Android platform, please select `Android` and then click `Switch Platform`
 - Click `Build`
 
-## Help
+## FAQ
 
 ### What can I do with this template?
 
-Anything! The scene included is a barebones ARDK setup that can be used in any way you see fit. If you need any ideas or want to get more familiar with what the ARDK provides, check out the [Lightship wesbite](https://lightship.dev/). You can also check out the experiences hosted on our platform to see what us and other people have made with these tools: [Our Website](https://www.loak.co/)
-
-### How do I use the Loak Scanner?
-
-The "Template (Meshing)" scene has it set up already, but if you wish to use it elsewhere just drag the prefab into your scene. You can find the Loak Scanner prefab by searching in the Project window or at Assets/Loak/Prefabs.
-
-Ensure that you have Lightships ARMeshManager component somewhere in your scene or the scanner will not work. If you don't already have one you can add it to the Loak Scanner object or anywhere else as you see fit. We recommend creating your own object to house your Lightship scripts. Don't forget that your mesh root object needs to have a negative y scale.
-
-After adding the prefab to your scene you can customize its behavior in the inspector. Each value has a tooltip to help you understand what it does. The most important value is the Scan Threshold. This value determines how much mesh needs to be generated before the scan is complete. You will likely need to adjust this value up or down depending on the needs of your experience and your ARMeshManager settings.
+Anything! The scene included is a barebones ARDK setup that can be used in any way you see fit. If you need any ideas or want to get more familiar with what the ARDK provides, check out the [Lightship wesbite](https://lightship.dev/). You can also check out the experiences hosted on [our platform](https://www.loak.co/) to see what us and other people have made with these tools.
 
 ### I have questions that aren't answered here.
 
-If you still need help, feel free to reach out to us through our [Discord server](https://discord.gg/y8wzR8MKKk). If your problem is with a Lightship feature and not the Loak tools provided in this template, you may get better results by asking in Lightship's forum or Discord server.
+If you still need help, feel free to reach out to us through our [Discord server](https://discord.gg/y8wzR8MKKk). If your problem is with a Lightship feature and not the Loak tools provided in this template, you may get better results by asking in [Lightship's forum](https://community.lightship.dev/) or [Discord server](https://discord.gg/RM6m4nWmYp).
 
 ## Features
 
