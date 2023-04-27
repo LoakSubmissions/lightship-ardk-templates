@@ -23,18 +23,20 @@ namespace Loak.Unity
         [SerializeField] private TextMeshProUGUI unHighlightedUsernameText;
         [SerializeField] private TextMeshProUGUI unHighlightedAmountCollected;
 
+        public void SetRank(int rank)
+        {
+            highlightedRankText.text = "#" + rank;
+            unHighlightedRankText.text = "#" + rank;
+        }
 
-
-        public void SetUIText(int rank, string username, string amount)
+        public void SetUIText(string username, string amount)
         {
             highLight.SetActive(false);
             unhighlighted.SetActive(true);
 
-            highlightedRankText.text = "#" + rank;
             highlightedUsernameText.text = username;
             highlightedAmountCollected.text = amount;
 
-            unHighlightedRankText.text = "#" + rank;
             unHighlightedUsernameText.text = username;
             unHighlightedAmountCollected.text = amount;
 

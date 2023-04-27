@@ -17,6 +17,7 @@ namespace Loak.Unity
         private LeaderboardUIBehaviour listItemPrefab;
         private List<LeaderboardUIBehaviour> listItems = new List<LeaderboardUIBehaviour>();
 
+        private Canvas canvas;
         private GameObject loadingView;
         private GameObject list;
 
@@ -32,6 +33,7 @@ namespace Loak.Unity
         // Start is called before the first frame update
         void Start()
         {
+            canvas = GetComponent<Canvas>();
             friendsTab = new Tab(transform.GetChild(1).GetChild(2).GetChild(0).gameObject, null);
             globalTab = new Tab(transform.GetChild(1).GetChild(2).GetChild(1).gameObject, null);
             loadingView = transform.GetChild(1).GetChild(4).gameObject;
@@ -68,26 +70,86 @@ namespace Loak.Unity
             for (int i = listItems.Count; i < numberOfEntries; i++)
             {
                 listItems.Add(Instantiate(listItemPrefab, parent));
-                listItems[i].gameObject.SetActive(false);
+                listItems[i].SetRank(i + 1);
             }
 
             loadingView.SetActive(true);
             list.SetActive(false);
         }
 
+        public void SetFriendEntries(List<(string, long)> entries)
+        {
+            friendsTab.Update(entries);
+            
+            if (activeTab == friendsTab)
+            {
+                SetUIItems(entries);
+
+                if (loadingView.activeSelf)
+                {
+                    loadingView.SetActive(false);
+                    list.SetActive(true);
+                }
+            }
+        }
+
+        public void SetGlobalEntries(List<(string, long)> entries)
+        {
+            globalTab.Update(entries);
+            
+            if (activeTab == globalTab)
+            {
+                SetUIItems(entries);
+
+                if (loadingView.activeSelf)
+                {
+                    loadingView.SetActive(false);
+                    list.SetActive(true);
+                }
+            }
+        }
+
+        public void Show()
+        {
+            canvas.enabled = true;
+        }
+
+        public void Hide()
+        {
+            canvas.enabled = false;
+        }
+
         internal void ActivateTab(Tab tab)
         {
             tab.ToggleSelected(true);
-            SetUI(tab.entries);
+            SetUIItems(tab.entries);
 
             if (activeTab != null)
                 activeTab.ToggleSelected(false);
             activeTab = tab;
         }
 
-        private void SetUI(List<(string, long)> entries)
+        private void SetUIItems(List<(string, long)> entries)
         {
-            
+            if (entries == null || entries.Count == 0)
+            {
+                listItems.ForEach((item) => {item.gameObject.SetActive(false);});
+                return;
+            }
+
+            LeaderboardUIBehaviour item;
+            for (int i = 0; i < numberOfEntries; i++)
+            {
+                if (i >= entries.Count)
+                {
+                    listItems[i].gameObject.SetActive(false);
+                    continue;
+                }
+
+                item = listItems[i];
+                item.SetUIText(entries[i].Item1, entries[i].Item2.ToString());
+                item.gameObject.SetActive(true);
+            }
         }
     }
 
