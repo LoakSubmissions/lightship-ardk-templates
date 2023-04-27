@@ -6,6 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Loak/Scene Templates/Meshing Template.unity
-    guid: 26fbed8e8c0fc0a4c8b0b04b0080d095
+    path: Assets/Loak/Scene Templates/Loak Essentials Template.unity
+    guid: cd8c67c7b62457b468479a2bb532a6f1
   m_configObjects: {}

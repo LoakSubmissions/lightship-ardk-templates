@@ -34,7 +34,7 @@ Scene templates make it easy to get building with Lightship ARDK
 
 ### For Android
 - Go to `Edit > Preferences > External Tools` and scroll to the bottom.
-- Ensure that "Gradle installed with Unity" is unchecked and the path is pointing to your Gradle v6.9.4+ binaries
+- Ensure that "Gradle installed with Unity" is unchecked and the path is pointing to your Gradle v6.9.4+ install
 - Navigate to `File > Build Settings`
 - If not already set to the Android platform, please select `Android` and then click `Switch Platform`
 - Click `Build`
