@@ -64,9 +64,8 @@ If you still need help, feel free to reach out to us through our [Discord server
 These are the Loak features and tools that we currently provide in this template:
 
 * Loak Scanner - A smooth meshing setup phase for use with any real-time meshing experience.
+* Loak Leaderboards - A simple score submission and leaderboard display system for games that want a more competitive feel.
 
 ### Roadmap
 
 These are some of the Loak features and tools that we plan to add to this template in the future. Feel free to suggest some in our [Discord server!](https://discord.gg/y8wzR8MKKk)
-
-* Loak Leaderboards - A simple score submission and leaderboard display system for games that want a more competitive feel.
