@@ -2,14 +2,28 @@
 
 A simple template scene that provides useful tools for creating real-time meshing based experiences.
 
+## Table of Contents
+- [Included Tools and Features](#included-tools-and-features)
+- [In The Scene](#in-the-scene)
+- [FAQ](#faq)
+
 ## Included Tools and Features
 
 These are the Loak tools and Lightship ARDK features that we set up for you in this scene template:
 
-* Real-time Meshing - An ARDK feature that maps out the users environment as a mesh in real time.
-* Loak Scanner - A smooth meshing setup phase for use with any real-time meshing experience.
+* **Real-time Meshing** - An ARDK feature that maps out the users environment as a mesh in real time.
+* **Loak Scanner** - A smooth meshing setup phase for use with any real-time meshing experience.
 
-## Help
+## In The Scene
+
+* **ARSceneManager** - Manages the AR session and camera. Do not remove unless you are experienced with Lightship.
+* **Directional Light** - Default scene lighting for visibility. Modify as needed.
+* **Cube** - A test object to ensure correct scene configuration. If not visible upon building, your project may be misconfigured.
+* **Lightship Scripts** - This object is provided to hold ARDK scripts. It currently only contains the ARMeshManager script.
+* **Loak Scanner** - Contains logic and UI for the Loak Scanner tool. Remove if not using the scanner.
+* **EventSystem** - Handles UI interaction. Required for clickable UI elements.
+
+## FAQ
 
 ### What can I do with this template?
 
@@ -23,11 +37,20 @@ Realtime meshing is an ARDK feature that maps the real world environment as a st
 
 This scene has it set up for you already. The Loak Scanner script is a Singleton, so you can access all of its public functions and variables with `LoakScanner.Instance`.
 
-By default it's configured to start immediately with the scene. If you wish to control it manually, make sure that `autoStart` is toggled off in the inspector. You can then trigger it with `LoakScanner.Instance.StartScan()` and if you need to forcefully end it, the `ForceEndScan(bool immediate)` method will do the trick.
+By default it's configured to start immediately with the scene and wait for at least 20 mesh blocks to generate before completing.
 
-The scanner is intended to be used to set up the mesh before gameplay, so we provide two useful events that you can subscribe to in order to run setup functions or start your experience. These events are `OnScanStart` and `OnScanEnd`.
+**Settings:**
+* `bool autoStart`: Whether or not the scan should start immediately on scene load.
+* `int scanThreshold`: How much mesh (in blocks) should be generated before scan is considered complete.
 
-If you want more or less mesh to be generated before the scan is considered complete, you can adjust the `scanThreshold` variable in the inspector.
+**Methods:**
+* `StartScan()`: Used to manually start or reset scan progress.
+* `ForceEndScan(bool immediate)`: Used to manually force the scan to end.
+    * `bool immediate`: Whether or not the end delay should be skipped.
+
+**Events:**
+* `OnScanStart`: Triggered when the scan begins.
+* `OnScanEnd`: Triggered when the scan finishes (whether forced or not).
 
 ### I have questions that aren't answered here.
 

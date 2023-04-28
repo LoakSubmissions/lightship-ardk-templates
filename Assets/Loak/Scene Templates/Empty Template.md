@@ -2,11 +2,23 @@
 
 A simple template scene that provides a barebones Lightship ARDK scene.
 
+## Table of Contents
+- [Included Tools and Features](#included-tools-and-features)
+- [In The Scene](#in-the-scene)
+- [FAQ](#faq)
+
 ## Included Tools and Features
 
 None!
 
-## Help
+## In The Scene
+
+* **ARSceneManager** - Manages the AR session and camera. Do not remove unless you are experienced with Lightship.
+* **Directional Light** - Default scene lighting for visibility. Modify as needed.
+* **Cube** - A test object to ensure correct scene configuration. If not visible upon building, your project may be misconfigured.
+* **EventSystem** - Handles UI interaction. Required for clickable UI elements.
+
+## FAQ
 
 ### What can I do with this template?
 
