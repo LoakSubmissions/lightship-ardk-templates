@@ -2,6 +2,20 @@
 
 A simple template project that provides useful tools for setting up a project with [Niantic's Lightship ARDK](https://lightship.dev/)
 
+## Table of Contents
+
+1. [Getting Started](#getting-started)
+2. [Setup](#setup)
+   - [Authenticating Lightship ARDK](#authenticating-lightship-ardk)
+   - [Choosing a Scene Template](#choosing-a-scene-template)
+3. [Building](#building)
+   - [For iOS](#for-ios)
+   - [For Android](#for-android)
+4. [FAQ](#faq)
+5. [Features](#features)
+   - [Available](#available)
+   - [Roadmap](#roadmap)
+
 ## Getting Started
 First, ensure you have the following installed:
 - [Unity Hub](https://unity.com/download): latest
@@ -60,9 +74,14 @@ If you still need help, feel free to reach out to us through our [Discord server
 
 These are the Loak features and tools that we currently provide in this template:
 
-* Loak Scanner - A smooth meshing setup phase for use with any real-time meshing experience.
-* Loak Leaderboards - A simple score submission and leaderboard display system for games that want a more competitive feel.
+* **Loak Scanner** - A smooth meshing setup phase for use with any real-time meshing experience.
+* **Loak Leaderboards** - A simple score submission and leaderboard display system for games that want a more competitive feel.
 
 ### Roadmap
 
 These are some of the Loak features and tools that we plan to add to this template in the future. Feel free to suggest some in our [Discord server!](https://discord.gg/y8wzR8MKKk)
+
+* **Loak Leaderboards Update** - More flexibility for the leaderboard tool when used outside of the Loak platform.
+* **Mesh Object Placement** - Easy to use solutions for placing objects in the real world.
+* **Shared AR Room Managment** - A simlified interface for connecting users in shared AR experiences.
+* **Loak Pause Menu** - Super simple and modular pause menu that will make publishing to Loak even easier than before.
