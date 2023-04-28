@@ -79,7 +79,7 @@ These are the Loak features and tools that we currently provide in this template
 
 ### Roadmap
 
-These are some of the Loak features and tools that we plan to add to this template in the future. Feel free to suggest some in our [Discord server!](https://discord.gg/y8wzR8MKKk)
+These are some of the Loak features and tools that we plan to add to this template in the future. Feel free to suggest some in our [Discord server!](https://discord.com/invite/bWfpMfH3BK)
 
 * **Loak Leaderboards Update** - More flexibility for the leaderboard tool when used outside of the Loak platform.
 * **Mesh Object Placement** - Easy to use solutions for placing objects in the real world.
