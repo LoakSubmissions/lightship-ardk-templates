@@ -16,8 +16,10 @@ namespace Loak.Unity
     {
         public UnityEvent OnSessionJoined;
         public UnityEvent OnSessionStarted;
-        public UnityEvent OnPeerJoined;
-        public UnityEvent OnPeerLeft;
+        public UnityEvent<IPeer> OnPeerJoined;
+        public UnityEvent<IPeer> OnPeerLeft;
+
+        [HideInInspector] public bool IsHost = false;
 
         private string sessionIdentifier;
         private IMultipeerNetworking networking;
@@ -25,12 +27,12 @@ namespace Loak.Unity
         private IARNetworking arNetworking;
         private IARWorldTrackingConfiguration configuration;
 
-        private bool IsHost = false;
-
         void Start()
         {
             networking = MultipeerNetworkingFactory.Create();
             networking.Connected += OnConnected;
+            networking.PeerAdded += OnPeerAdded;
+            networking.PeerRemoved += OnPeerRemoved;
 
             arSession = ARSessionFactory.Create(networking.StageIdentifier);
             arNetworking = ARNetworkingFactory.Create(arSession, networking);
@@ -39,7 +41,7 @@ namespace Loak.Unity
             configuration.IsSharedExperienceEnabled = true;
         }
 
-        public void TryJoinSession(string sessionIdentifier)
+        public void JoinSession(string sessionIdentifier)
         {
             this.sessionIdentifier = sessionIdentifier;
 
@@ -52,13 +54,32 @@ namespace Loak.Unity
             OnSessionJoined.Invoke();
         }
 
-        public void TryStartSession()
+        public void LeaveSession()
         {
-            if (!networking.IsConnected || !IsHost)
+            if (!networking.IsConnected)
+                return;
+
+            sessionIdentifier = null;
+            networking.Leave();
+        }
+
+        public void StartSession()
+        {
+            if (!networking.IsConnected)
                 return;
 
             arNetworking.ARSession.Run(configuration);
             OnSessionStarted.Invoke();
+        }
+
+        private void OnPeerAdded(PeerAddedArgs args)
+        {
+            OnPeerJoined.Invoke(args.Peer);
+        }
+
+        private void OnPeerRemoved(PeerRemovedArgs args)
+        {
+            OnPeerJoined.Invoke(args.Peer);
         }
     }
 }
