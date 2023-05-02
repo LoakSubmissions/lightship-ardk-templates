@@ -20,6 +20,7 @@ namespace Loak.Unity
         public UnityEvent<IPeer> OnPeerLeft;
 
         [HideInInspector] public bool IsHost = false;
+        [HideInInspector] public IPeer me;
 
         private string sessionIdentifier;
         private IMultipeerNetworking networking;
@@ -51,6 +52,7 @@ namespace Loak.Unity
         private void OnConnected(ConnectedArgs args)
         {
             IsHost = args.IsHost;
+            me = networking.Self;
             OnSessionJoined.Invoke();
         }
 
@@ -63,7 +65,18 @@ namespace Loak.Unity
             networking.Leave();
         }
 
-        public void StartSession()
+        public void StartSoloSession()
+        {
+            if (networking.IsConnected)
+            {
+                networking.Leave();
+            }
+
+            arSession.Run(configuration);
+            OnSessionStarted.Invoke();
+        }
+
+        public void StartMultiplayerSession()
         {
             if (!networking.IsConnected)
                 return;
