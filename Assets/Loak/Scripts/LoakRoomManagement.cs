@@ -92,7 +92,7 @@ namespace Loak.Unity
                 lobbyView.SetActive(false);
                 seshMan.LeaveSession();
                 connectedPlayers.Clear();
-                
+
                 foreach (var item in lobbyListItems.Values)
                 {
                     Destroy(item);
@@ -184,7 +184,14 @@ namespace Loak.Unity
 
             // TODO: Validate and accept or reject join.
 
+            var payload = new Dictionary<Guid, string>();
 
+            foreach (KeyValuePair<Guid, Player> pair in connectedPlayers)
+            {
+                payload.Add(pair.Key, pair.Value.username);
+            }
+
+            seshMan.SendToPeer(1, player.Identifier, payload);
         }
 
         public void OnPlayerLeft(IPeer player)
