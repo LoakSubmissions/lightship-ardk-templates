@@ -21,7 +21,7 @@ namespace Loak.Unity
         public UnityEvent OnSessionStarted;
         public UnityEvent<IPeer> OnPeerJoined;
         public UnityEvent<IPeer> OnPeerLeft;
-        public UnityEvent<uint, Guid, object> OnDataRecieved;
+        public UnityEvent<uint, Guid, object[]> OnDataRecieved;
 
         [HideInInspector] public bool IsHost = false;
         [HideInInspector] public IPeer me;
@@ -110,6 +110,7 @@ namespace Loak.Unity
             using (var serializer = new BinarySerializer(stream))
             {
                 serializer.Serialize(me.Identifier);
+                serializer.Serialize(1);
                 serializer.Serialize(str);
             }
 
@@ -128,6 +129,7 @@ namespace Loak.Unity
             using (var serializer = new BinarySerializer(stream))
             {
                 serializer.Serialize(origin);
+                serializer.Serialize(1);
                 serializer.Serialize(str);
             }
 
@@ -136,7 +138,7 @@ namespace Loak.Unity
             networking.BroadcastData(tag, data, TransportType.ReliableUnordered);
         }
 
-        public void SendToPeer(uint tag, Guid target, Dictionary<Guid, string> payload)
+        public void SendToPeer(uint tag, Guid target, (List<Guid>, List<string>) payload)
         {
             if (!networking.IsConnected || !IsHost)
                 return;
@@ -146,7 +148,9 @@ namespace Loak.Unity
             using (var serializer = new BinarySerializer(stream))
             {
                 serializer.Serialize(me.Identifier);
-                serializer.Serialize(payload);
+                serializer.Serialize(2);
+                serializer.Serialize(payload.Item1.ToArray());
+                serializer.Serialize(payload.Item2.ToArray());
             }
 
             byte[] data = stream.ToArray();
@@ -165,12 +169,17 @@ namespace Loak.Unity
         {
             var stream = new MemoryStream(args.CopyData());
             Guid sender;
-            object data;
+            int length;
+            object[] data;
 
             using (var deserializer = new BinaryDeserializer(stream))
             {
                 sender = (Guid)deserializer.Deserialize();
-                data = deserializer.Deserialize();
+                length = (int)deserializer.Deserialize();
+
+                data = new object[length];
+                for (int i = 0; i < length; i++)
+                    data[i] = deserializer.Deserialize();
             }
 
             OnDataRecieved.Invoke(args.Tag, sender, data);

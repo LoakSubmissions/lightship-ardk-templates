@@ -165,6 +165,16 @@ namespace Loak.Unity
             lobbyView.SetActive(true);
 
             lobbyCode.text = roomCode;
+
+            // (List<Guid>, List<string>) payload = (new List<Guid>(), new List<string>());
+
+            // foreach (KeyValuePair<Guid, Player> pair in connectedPlayers)
+            // {
+            //     payload.Item1.Add(pair.Key);
+            //     payload.Item2.Add(pair.Value.username);
+            // }
+
+            // seshMan.SendToPeer(1, seshMan.me.Identifier, payload);
         }
 
         public void StartRoom()
@@ -184,11 +194,12 @@ namespace Loak.Unity
 
             // TODO: Validate and accept or reject join.
 
-            var payload = new Dictionary<Guid, string>();
+            (List<Guid>, List<string>) payload = (new List<Guid>(), new List<string>());
 
             foreach (KeyValuePair<Guid, Player> pair in connectedPlayers)
             {
-                payload.Add(pair.Key, pair.Value.username);
+                payload.Item1.Add(pair.Key);
+                payload.Item2.Add(pair.Value.username);
             }
 
             seshMan.SendToPeer(1, player.Identifier, payload);
@@ -201,12 +212,12 @@ namespace Loak.Unity
             connectedPlayers.Remove(player.Identifier);
         }
 
-        public void OnDataRecieved(uint tag, Guid sender, object data)
+        public void OnDataRecieved(uint tag, Guid sender, object[] data)
         {
             switch (tag)
             {
                 case 0:
-                    var username = (string)data;
+                    var username = (string)data[0];
                     var newEntry = Instantiate(lobbyListPrefab, lobbyListParent);
                     lobbyListItems.Add(sender, newEntry);
                     connectedPlayers[sender] = new Player(sender, username);
@@ -224,14 +235,14 @@ namespace Loak.Unity
                     break;
 
                 case 1:
-                    var players = (Dictionary<Guid, string>)data;
+                    var players = ((Guid[])data[0], (string[])data[1]);
 
-                    foreach (KeyValuePair<Guid, string> pair in players)
+                    for (int i = 0; i < players.Item1.Length; i++)
                     {
-                        username = pair.Value;
+                        username = players.Item2[i];
                         newEntry = Instantiate(lobbyListPrefab, lobbyListParent);
-                        lobbyListItems.Add(pair.Key, newEntry);
-                        connectedPlayers[pair.Key] = new Player(pair.Key, username);
+                        lobbyListItems.Add(players.Item1[i], newEntry);
+                        connectedPlayers[players.Item1[i]] = new Player(players.Item1[i], username);
 
                         if (username == null || username == "")
                             username = $"Player {connectedPlayers.Count}";
