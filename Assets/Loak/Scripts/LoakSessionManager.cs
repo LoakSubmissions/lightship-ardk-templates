@@ -9,6 +9,9 @@ using Niantic.ARDK.Networking;
 using Niantic.ARDK.AR;
 using Niantic.ARDK.Networking.MultipeerNetworkingEventArgs;
 using Niantic.ARDK.AR.Configuration;
+using System.IO;
+using Niantic.ARDK.Utilities.BinarySerialization;
+using System;
 
 namespace Loak.Unity
 {
@@ -18,6 +21,7 @@ namespace Loak.Unity
         public UnityEvent OnSessionStarted;
         public UnityEvent<IPeer> OnPeerJoined;
         public UnityEvent<IPeer> OnPeerLeft;
+        public UnityEvent<uint, Guid, object> OnDataRecieved;
 
         [HideInInspector] public bool IsHost = false;
         [HideInInspector] public IPeer me;
@@ -34,6 +38,7 @@ namespace Loak.Unity
             networking.Connected += OnConnected;
             networking.PeerAdded += OnPeerAdded;
             networking.PeerRemoved += OnPeerRemoved;
+            networking.PeerDataReceived += OnPeerDataRecieved;
 
             arSession = ARSessionFactory.Create(networking.StageIdentifier);
             arNetworking = ARNetworkingFactory.Create(arSession, networking);
@@ -93,6 +98,57 @@ namespace Loak.Unity
         private void OnPeerRemoved(PeerRemovedArgs args)
         {
             OnPeerJoined.Invoke(args.Peer);
+        }
+
+        public void SendToHost(uint tag, string str)
+        {
+            if (!networking.IsConnected)
+                return;
+
+            var stream = new MemoryStream();
+
+            using (var serializer = new BinarySerializer(stream))
+            {
+                serializer.Serialize(me.Identifier);
+                serializer.Serialize(str);
+            }
+
+            byte[] data = stream.ToArray();
+
+            networking.SendDataToPeer(tag, data, networking.Host, TransportType.ReliableUnordered);
+        }
+
+        public void SendToAll(uint tag, Guid origin, string str)
+        {
+            if (!networking.IsConnected || !IsHost)
+                return;
+
+            var stream = new MemoryStream();
+
+            using (var serializer = new BinarySerializer(stream))
+            {
+                serializer.Serialize(origin);
+                serializer.Serialize(str);
+            }
+
+            byte[] data = stream.ToArray();
+
+            networking.BroadcastData(tag, data, TransportType.ReliableUnordered);
+        }
+
+        private void OnPeerDataRecieved(PeerDataReceivedArgs args)
+        {
+            var stream = new MemoryStream(args.CopyData());
+            Guid sender;
+            object data;
+
+            using (var deserializer = new BinaryDeserializer(stream))
+            {
+                sender = (Guid)deserializer.Deserialize();
+                data = deserializer.Deserialize();
+            }
+
+            OnDataRecieved.Invoke(args.Tag, sender, GlobalSerializer.Deserialize(stream));
         }
     }
 }

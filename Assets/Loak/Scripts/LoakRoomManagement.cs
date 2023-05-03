@@ -12,10 +12,11 @@ namespace Loak.Unity
     {
         public static LoakRoomManagement Instance;
 
+        public string username = null;
         [SerializeField] private string roomPrefix = "LoakTemplate";
         public int roomCap { get; private set; } = 5;
         public string roomCode { get; private set; } = null;
-        public Dictionary<Guid, GameObject> connectedPlayers { get; private set; } = new Dictionary<Guid, GameObject>();
+        public Dictionary<Guid, Player> connectedPlayers { get; private set; } = new Dictionary<Guid, Player>();
 
         private Canvas canvas;
         private GameObject modeSelectView;
@@ -26,9 +27,22 @@ namespace Loak.Unity
         private TMP_Text lobbyCode;
         private Transform lobbyListParent;
         private GameObject lobbyListPrefab;
+        private Dictionary<Guid, GameObject> lobbyListItems = new Dictionary<Guid, GameObject>();
 
         private LoakSessionManager seshMan;
         private bool creating = false;
+
+        public class Player
+        {
+            public Guid identifier;
+            public string username;
+
+            public Player(IPeer peer)
+            {
+                identifier = peer.Identifier;
+                username = null;
+            }
+        }
 
         void Awake()
         {
@@ -136,15 +150,13 @@ namespace Loak.Unity
                 return;
             }
 
+            seshMan.SendToHost(0, username);
+
             multiplayerView.SetActive(false);
             joinView.SetActive(false);
             lobbyView.SetActive(true);
 
             lobbyCode.text = roomCode;
-            connectedPlayers.Add(seshMan.me.Identifier, lobbyListPrefab);
-            lobbyListPrefab.transform.GetChild(1).GetComponentInChildren<TMP_Text>(true).text = "Y";
-            lobbyListPrefab.transform.GetChild(2).GetComponent<TMP_Text>().text = "You";
-            lobbyListPrefab.SetActive(true);
         }
 
         public void StartRoom()
@@ -157,18 +169,41 @@ namespace Loak.Unity
             canvas.enabled = false;
         }
 
-        public void OnPlayerJoined(IPeer player)
+        public void OnPlayerJoined(IPeer peer)
         {
-            var myEntry = Instantiate(lobbyListPrefab, lobbyListParent);
-            connectedPlayers.Add(player.Identifier, myEntry);
-            myEntry.transform.GetChild(1).GetComponentInChildren<TMP_Text>(true).text = player.Identifier.ToString().Substring(0, 1);
-            myEntry.transform.GetChild(2).GetComponent<TMP_Text>().text = player.Identifier.ToString();
+            if (!seshMan.IsHost)
+                return;
+
+            // TODO: Validate and accept or reject join.
         }
 
         public void OnPlayerLeft(IPeer player)
         {
-            Destroy(connectedPlayers[player.Identifier]);
-            connectedPlayers.Remove(player.Identifier);
+            Destroy(lobbyListItems[player.Identifier]);
+            lobbyListItems.Remove(player.Identifier);
+        }
+
+        public void OnDataRecieved(uint tag, Guid sender, object data)
+        {
+            switch (tag)
+            {
+                case 0:
+                    var username = (string)data;
+                    var myEntry = Instantiate(lobbyListPrefab, lobbyListParent);
+                    lobbyListItems.Add(sender, myEntry);
+                    connectedPlayers[sender].username = username;
+
+                    if (username == null)
+                        username = $"Player {connectedPlayers.Count}";
+
+                    myEntry.transform.GetChild(1).GetComponentInChildren<TMP_Text>(true).text = username.Substring(0, 1);
+                    myEntry.transform.GetChild(2).GetComponent<TMP_Text>().text = username;
+
+                    if (seshMan.IsHost)
+                        seshMan.SendToAll(0, sender, username);
+                    
+                    break;
+            }
         }
     }
 }
