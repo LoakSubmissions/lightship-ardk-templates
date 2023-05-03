@@ -63,3 +63,7 @@ Assets/Resources/ARDK/ArdkAuthConfig.asset.DS_Store
 
 # Mono crash files generated on editor crash
 mono_crash*
+
+.vscode/
+
+.vsconfig

@@ -168,7 +168,7 @@ namespace Loak.Unity
 
                 item = listItems[i];
                 item.SetUIText(entries[i].Item1, entries[i].Item2.ToString());
-                item.Highlight(entries[i].Item1 == highlightedName ? true : false);
+                item.Highlight(entries[i].Item1 == highlightedName);
                 item.gameObject.SetActive(true);
             }
         }
