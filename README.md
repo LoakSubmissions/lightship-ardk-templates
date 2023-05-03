@@ -66,7 +66,7 @@ Anything! The scene included is a barebones ARDK setup that can be used in any w
 
 ### I have questions that aren't answered here.
 
-If you still need help, feel free to reach out to us through our [Discord server](https://discord.gg/y8wzR8MKKk). If your problem is with a Lightship feature and not the Loak tools provided in this template, you may get better results by asking in [Lightship's forum](https://community.lightship.dev/) or [Discord server](https://discord.gg/RM6m4nWmYp).
+If you still need help, feel free to reach out to us through our [Discord server](https://discord.com/invite/bWfpMfH3BK). If your problem is with a Lightship feature and not the Loak tools provided in this template, you may get better results by asking in [Lightship's forum](https://community.lightship.dev/) or [Discord server](https://discord.gg/RM6m4nWmYp).
 
 ## Features
 
