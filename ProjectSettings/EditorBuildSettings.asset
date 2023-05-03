@@ -5,7 +5,10 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Loak/Scene Templates/Loak Essentials Template.unity
     guid: cd8c67c7b62457b468479a2bb532a6f1
+  - enabled: 1
+    path: Assets/Loak/Scene Templates/Shared AR Template.unity
+    guid: 9d95da766038ece48915600fe8ccd5a7
   m_configObjects: {}

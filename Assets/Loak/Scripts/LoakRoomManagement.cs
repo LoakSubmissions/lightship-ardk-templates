@@ -91,6 +91,14 @@ namespace Loak.Unity
             {
                 lobbyView.SetActive(false);
                 seshMan.LeaveSession();
+                connectedPlayers.Clear();
+                
+                foreach (var item in lobbyListItems.Values)
+                {
+                    Destroy(item);
+                }
+
+                lobbyListItems.Clear();
                 multiplayerView.SetActive(true);
             }
         }
@@ -169,18 +177,21 @@ namespace Loak.Unity
             canvas.enabled = false;
         }
 
-        public void OnPlayerJoined(IPeer peer)
+        public void OnPlayerJoined(IPeer player)
         {
             if (!seshMan.IsHost)
                 return;
 
             // TODO: Validate and accept or reject join.
+
+
         }
 
         public void OnPlayerLeft(IPeer player)
         {
             Destroy(lobbyListItems[player.Identifier]);
             lobbyListItems.Remove(player.Identifier);
+            connectedPlayers.Remove(player.Identifier);
         }
 
         public void OnDataRecieved(uint tag, Guid sender, object data)
@@ -203,6 +214,26 @@ namespace Loak.Unity
                     if (seshMan.IsHost)
                         seshMan.SendToAll(0, sender, username);
                     
+                    break;
+
+                case 1:
+                    var players = (Dictionary<Guid, string>)data;
+
+                    foreach (KeyValuePair<Guid, string> pair in players)
+                    {
+                        username = pair.Value;
+                        newEntry = Instantiate(lobbyListPrefab, lobbyListParent);
+                        lobbyListItems.Add(pair.Key, newEntry);
+                        connectedPlayers[pair.Key] = new Player(pair.Key, username);
+
+                        if (username == null || username == "")
+                            username = $"Player {connectedPlayers.Count}";
+
+                        newEntry.transform.GetChild(1).GetComponentInChildren<TMP_Text>(true).text = username.Substring(0, 1);
+                        newEntry.transform.GetChild(2).GetComponent<TMP_Text>().text = username;
+                        newEntry.SetActive(true);
+                    }
+
                     break;
             }
         }

@@ -136,6 +136,31 @@ namespace Loak.Unity
             networking.BroadcastData(tag, data, TransportType.ReliableUnordered);
         }
 
+        public void SendToPeer(uint tag, Guid target, Dictionary<Guid, string> payload)
+        {
+            if (!networking.IsConnected || !IsHost)
+                return;
+
+            var stream = new MemoryStream();
+
+            using (var serializer = new BinarySerializer(stream))
+            {
+                serializer.Serialize(me.Identifier);
+                serializer.Serialize(payload);
+            }
+
+            byte[] data = stream.ToArray();
+
+            IPeer peer = null;
+            foreach (IPeer p in networking.OtherPeers)
+            {
+                if (p.Identifier == target)
+                    peer = p;
+            }
+
+            networking.SendDataToPeer(tag, data, peer, TransportType.ReliableUnordered);
+        }
+
         private void OnPeerDataRecieved(PeerDataReceivedArgs args)
         {
             var stream = new MemoryStream(args.CopyData());
