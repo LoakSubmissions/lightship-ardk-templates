@@ -148,7 +148,7 @@ namespace Loak.Unity
                 data = deserializer.Deserialize();
             }
 
-            OnDataRecieved.Invoke(args.Tag, sender, GlobalSerializer.Deserialize(stream));
+            OnDataRecieved.Invoke(args.Tag, sender, data);
         }
     }
 }

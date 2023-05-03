@@ -37,10 +37,10 @@ namespace Loak.Unity
             public Guid identifier;
             public string username;
 
-            public Player(IPeer peer)
+            public Player(Guid identifier, string username)
             {
-                identifier = peer.Identifier;
-                username = null;
+                this.identifier = identifier;
+                this.username = username;
             }
         }
 
@@ -189,15 +189,16 @@ namespace Loak.Unity
             {
                 case 0:
                     var username = (string)data;
-                    var myEntry = Instantiate(lobbyListPrefab, lobbyListParent);
-                    lobbyListItems.Add(sender, myEntry);
-                    connectedPlayers[sender].username = username;
+                    var newEntry = Instantiate(lobbyListPrefab, lobbyListParent);
+                    lobbyListItems.Add(sender, newEntry);
+                    connectedPlayers[sender] = new Player(sender, username);
 
-                    if (username == null)
+                    if (username == null || username == "")
                         username = $"Player {connectedPlayers.Count}";
 
-                    myEntry.transform.GetChild(1).GetComponentInChildren<TMP_Text>(true).text = username.Substring(0, 1);
-                    myEntry.transform.GetChild(2).GetComponent<TMP_Text>().text = username;
+                    newEntry.transform.GetChild(1).GetComponentInChildren<TMP_Text>(true).text = username.Substring(0, 1);
+                    newEntry.transform.GetChild(2).GetComponent<TMP_Text>().text = username;
+                    newEntry.SetActive(true);
 
                     if (seshMan.IsHost)
                         seshMan.SendToAll(0, sender, username);
