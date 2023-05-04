@@ -25,6 +25,7 @@ namespace Loak.Unity
 
         [HideInInspector] public bool IsHost = false;
         [HideInInspector] public IPeer me;
+        [HideInInspector] public bool sessionBegan = false;
 
         private string sessionIdentifier;
         private IMultipeerNetworking networking;
@@ -39,6 +40,8 @@ namespace Loak.Unity
 
         private void Initialize()
         {
+            sessionBegan = false;
+
             if (networking == null)
             {
                 if (arNetworking != null)
@@ -117,6 +120,7 @@ namespace Loak.Unity
 
             arSession.Run(configuration);
             OnSessionStarted.Invoke();
+            sessionBegan = true;
         }
 
         public void StartMultiplayerSession()
@@ -126,6 +130,7 @@ namespace Loak.Unity
 
             arSession.Run(configuration);
             OnSessionStarted.Invoke();
+            sessionBegan = true;
         }
 
         private void OnPeerAdded(PeerAddedArgs args)
@@ -201,6 +206,25 @@ namespace Loak.Unity
             }
 
             networking.SendDataToPeer(tag, data, peer, TransportType.ReliableUnordered);
+        }
+
+        public void SendToPeer(uint tag, IPeer target, bool payload)
+        {
+            if (!networking.IsConnected || !IsHost)
+                return;
+
+            var stream = new MemoryStream();
+
+            using (var serializer = new BinarySerializer(stream))
+            {
+                serializer.Serialize(me.Identifier);
+                serializer.Serialize(1);
+                serializer.Serialize(payload);
+            }
+
+            byte[] data = stream.ToArray();
+
+            networking.SendDataToPeer(tag, data, target, TransportType.ReliableUnordered);
         }
 
         private void OnPeerDataRecieved(PeerDataReceivedArgs args)

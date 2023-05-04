@@ -158,6 +158,12 @@ namespace Loak.Unity
                 return;
             }
 
+            if (seshMan.IsHost)
+                JoinAccepted();
+        }
+
+        private void JoinAccepted()
+        {
             seshMan.SendToHost(0, username);
 
             multiplayerView.SetActive(false);
@@ -165,16 +171,6 @@ namespace Loak.Unity
             lobbyView.SetActive(true);
 
             lobbyCode.text = roomCode;
-
-            // (List<Guid>, List<string>) payload = (new List<Guid>(), new List<string>());
-
-            // foreach (KeyValuePair<Guid, Player> pair in connectedPlayers)
-            // {
-            //     payload.Item1.Add(pair.Key);
-            //     payload.Item2.Add(pair.Value.username);
-            // }
-
-            // seshMan.SendToPeer(1, seshMan.me.Identifier, payload);
         }
 
         public void StartRoom()
@@ -187,12 +183,23 @@ namespace Loak.Unity
             canvas.enabled = false;
         }
 
-        public void OnPlayerJoined(IPeer player)
+        public void OnPlayerJoined(IPeer peer)
         {
             if (!seshMan.IsHost)
                 return;
 
-            // TODO: Validate and accept or reject join.
+            bool accepted = true;
+            
+            if (connectedPlayers.Count >= roomCap)
+                accepted = false;
+
+            if (seshMan.sessionBegan)
+                accepted = false;
+
+            seshMan.SendToPeer(2, peer, accepted);
+
+            if (!accepted)
+                return;
 
             (List<Guid>, List<string>) payload = (new List<Guid>(), new List<string>());
 
@@ -202,7 +209,7 @@ namespace Loak.Unity
                 payload.Item2.Add(pair.Value.username);
             }
 
-            seshMan.SendToPeer(1, player.Identifier, payload);
+            seshMan.SendToPeer(1, peer.Identifier, payload);
         }
 
         public void OnPlayerLeft(IPeer player)
@@ -250,6 +257,22 @@ namespace Loak.Unity
                         newEntry.transform.GetChild(1).GetComponentInChildren<TMP_Text>(true).text = username.Substring(0, 1);
                         newEntry.transform.GetChild(2).GetComponent<TMP_Text>().text = username;
                         newEntry.SetActive(true);
+                    }
+
+                    break;
+
+                case 2:
+                    bool canJoin = (bool)data[0];
+
+                    if (canJoin)
+                    {
+                        JoinAccepted();
+                    }
+                    else
+                    {
+                        // TODO: Display join rejected error.
+                        seshMan.LeaveSession();
+                        roomCode = null;
                     }
 
                     break;
