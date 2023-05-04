@@ -34,17 +34,45 @@ namespace Loak.Unity
 
         void Start()
         {
-            networking = MultipeerNetworkingFactory.Create();
-            networking.Connected += OnConnected;
-            networking.PeerAdded += OnPeerAdded;
-            networking.PeerRemoved += OnPeerRemoved;
-            networking.PeerDataReceived += OnPeerDataRecieved;
+            Initialize();
+        }
 
-            arSession = ARSessionFactory.Create(networking.StageIdentifier);
-            arNetworking = ARNetworkingFactory.Create(arSession, networking);
+        private void Initialize()
+        {
+            if (networking == null)
+            {
+                if (arNetworking != null)
+                {
+                    arNetworking.Dispose();
+                    arNetworking = null;
+                }
 
-            configuration = ARWorldTrackingConfigurationFactory.Create();
-            configuration.IsSharedExperienceEnabled = true;
+                networking = MultipeerNetworkingFactory.Create(arSession == null ? default : arSession.StageIdentifier);
+                networking.Connected += OnConnected;
+                networking.PeerAdded += OnPeerAdded;
+                networking.PeerRemoved += OnPeerRemoved;
+                networking.PeerDataReceived += OnPeerDataRecieved;
+            }
+
+            if (arSession == null)
+            {
+                if (arNetworking != null)
+                {
+                    arNetworking.Dispose();
+                    arNetworking = null;
+                }
+
+                arSession = ARSessionFactory.Create(networking.StageIdentifier);
+            }
+
+            if (arNetworking == null)
+                arNetworking = ARNetworkingFactory.Create(arSession, networking);
+
+            if (configuration == null)
+            {
+                configuration = ARWorldTrackingConfigurationFactory.Create();
+                configuration.IsSharedExperienceEnabled = true;
+            }
         }
 
         public void JoinSession(string sessionIdentifier)
@@ -63,18 +91,28 @@ namespace Loak.Unity
 
         public void LeaveSession()
         {
-            if (!networking.IsConnected)
-                return;
+            if (networking.IsConnected)
+            {
+                sessionIdentifier = null;
+                networking.Leave();
+                networking.Dispose();
+                networking = null;
+            }
 
-            sessionIdentifier = null;
-            networking.Leave();
+            if (arSession.State == ARSessionState.Running)
+            {
+                arSession.Dispose();
+                arSession = null;
+            }
+
+            Initialize();
         }
 
         public void StartSoloSession()
         {
             if (networking.IsConnected)
             {
-                networking.Leave();
+                LeaveSession();
             }
 
             arSession.Run(configuration);
@@ -86,7 +124,7 @@ namespace Loak.Unity
             if (!networking.IsConnected)
                 return;
 
-            arNetworking.ARSession.Run(configuration);
+            arSession.Run(configuration);
             OnSessionStarted.Invoke();
         }
 

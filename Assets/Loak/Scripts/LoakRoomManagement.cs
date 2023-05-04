@@ -146,14 +146,14 @@ namespace Loak.Unity
             if (creating && !seshMan.IsHost)
             {
                 // TODO: Display failed to create error
-                // seshMan.LeaveSession();
+                seshMan.LeaveSession();
                 roomCode = null;
                 return;
             }
             else if (!creating && seshMan.IsHost)
             {
                 // TODO: Display failed to join error
-                // seshMan.LeaveSession();
+                seshMan.LeaveSession();
                 roomCode = null;
                 return;
             }
