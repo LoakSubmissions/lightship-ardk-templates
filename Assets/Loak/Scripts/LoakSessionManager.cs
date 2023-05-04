@@ -74,7 +74,8 @@ namespace Loak.Unity
             if (configuration == null)
             {
                 configuration = ARWorldTrackingConfigurationFactory.Create();
-                configuration.IsSharedExperienceEnabled = true;
+                configuration.IsAutoFocusEnabled = true;
+                configuration.IsLightEstimationEnabled = true;
             }
         }
 
@@ -118,6 +119,7 @@ namespace Loak.Unity
                 LeaveSession();
             }
 
+            configuration.IsSharedExperienceEnabled = false;
             arSession.Run(configuration);
             OnSessionStarted.Invoke();
             sessionBegan = true;
@@ -128,6 +130,7 @@ namespace Loak.Unity
             if (!networking.IsConnected)
                 return;
 
+            configuration.IsSharedExperienceEnabled = true;
             arSession.Run(configuration);
             OnSessionStarted.Invoke();
             sessionBegan = true;

@@ -5,6 +5,7 @@ using Niantic.ARDK.Extensions;
 using Niantic.ARDK.Networking;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Loak.Unity
 {
@@ -28,6 +29,7 @@ namespace Loak.Unity
         private Transform lobbyListParent;
         private GameObject lobbyListPrefab;
         private Dictionary<Guid, GameObject> lobbyListItems = new Dictionary<Guid, GameObject>();
+        private Button lobbyPlayButton;
 
         private LoakSessionManager seshMan;
         private bool creating = false;
@@ -62,6 +64,7 @@ namespace Loak.Unity
             lobbyCode = lobbyView.transform.GetChild(3).GetComponentsInChildren<TMP_Text>(true)[1];
             lobbyListParent = lobbyView.transform.GetChild(3).GetChild(2);
             lobbyListPrefab = lobbyListParent.GetChild(1).gameObject;
+            lobbyPlayButton = lobbyView.GetComponentInChildren<Button>(true);
         }
 
         private string GenerateRoomCode()
@@ -170,12 +173,17 @@ namespace Loak.Unity
             joinView.SetActive(false);
             lobbyView.SetActive(true);
 
+            lobbyPlayButton.interactable = seshMan.IsHost;
+            if (!seshMan.IsHost)
+                lobbyPlayButton.GetComponentInChildren<TMP_Text>().text = "Waiting for Host...";
+
             lobbyCode.text = roomCode;
         }
 
         public void StartRoom()
         {
             seshMan.StartMultiplayerSession();
+            seshMan.SendToAll(3, seshMan.me.Identifier, null);
         }
 
         public void OnRoomStarted()
@@ -189,7 +197,7 @@ namespace Loak.Unity
                 return;
 
             bool accepted = true;
-            
+
             if (connectedPlayers.Count >= roomCap)
                 accepted = false;
 
@@ -275,6 +283,11 @@ namespace Loak.Unity
                         roomCode = null;
                     }
 
+                    break;
+
+                case 3:
+                    if (!seshMan.IsHost)
+                        seshMan.StartMultiplayerSession();
                     break;
             }
         }
