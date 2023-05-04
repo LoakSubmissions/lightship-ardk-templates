@@ -217,14 +217,14 @@ namespace Loak.Unity
                 payload.Item2.Add(pair.Value.username);
             }
 
-            seshMan.SendToPeer(1, peer.Identifier, payload);
+            seshMan.SendToPeer(1, peer, payload);
         }
 
-        public void OnPlayerLeft(IPeer player)
+        public void OnPlayerLeft(IPeer peer)
         {
-            Destroy(lobbyListItems[player.Identifier]);
-            lobbyListItems.Remove(player.Identifier);
-            connectedPlayers.Remove(player.Identifier);
+            Destroy(lobbyListItems[peer.Identifier]);
+            lobbyListItems.Remove(peer.Identifier);
+            connectedPlayers.Remove(peer.Identifier);
         }
 
         public void OnDataRecieved(uint tag, Guid sender, object[] data)

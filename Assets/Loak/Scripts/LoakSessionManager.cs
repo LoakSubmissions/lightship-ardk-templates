@@ -184,7 +184,7 @@ namespace Loak.Unity
             networking.BroadcastData(tag, data, TransportType.ReliableUnordered);
         }
 
-        public void SendToPeer(uint tag, Guid target, (List<Guid>, List<string>) payload)
+        public void SendToPeer(uint tag, IPeer target, (List<Guid>, List<string>) payload)
         {
             if (!networking.IsConnected || !IsHost)
                 return;
@@ -201,14 +201,7 @@ namespace Loak.Unity
 
             byte[] data = stream.ToArray();
 
-            IPeer peer = null;
-            foreach (IPeer p in networking.OtherPeers)
-            {
-                if (p.Identifier == target)
-                    peer = p;
-            }
-
-            networking.SendDataToPeer(tag, data, peer, TransportType.ReliableUnordered);
+            networking.SendDataToPeer(tag, data, target, TransportType.ReliableUnordered);
         }
 
         public void SendToPeer(uint tag, IPeer target, bool payload)
