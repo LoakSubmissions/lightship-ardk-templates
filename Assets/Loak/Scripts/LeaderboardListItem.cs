@@ -18,11 +18,14 @@ namespace Loak.Unity
         private Image backgroundImage;
         private TMP_Text[] textElements;
 
-        void Start()
+        void Awake()
         {
             backgroundImage = GetComponentInChildren<Image>(true);
             textElements = GetComponentsInChildren<TMP_Text>(true);
+        }
 
+        void Start()
+        {
             backgroundImage.sprite = unhighlightedBackground;
             foreach (TMP_Text text in textElements)
             {

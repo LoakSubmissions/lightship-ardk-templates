@@ -67,7 +67,7 @@ namespace Loak.Unity
 
             listItemPrefab = GetComponentInChildren<LeaderboardListItem>(true);
             list = listItemPrefab.transform.parent.parent.parent.gameObject;
-            listItemPrefab.gameObject.SetActive(false);
+            listItemPrefab.gameObject.SetActive(true);
 
             if (listItems.Count == 0)
                 listItems.Add(listItemPrefab);
@@ -79,6 +79,7 @@ namespace Loak.Unity
                 listItems[i].SetRank(i + 1);
             }
 
+            listItemPrefab.gameObject.SetActive(false);
             loadingView.SetActive(true);
             list.SetActive(false);
         }
