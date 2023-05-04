@@ -15,7 +15,7 @@ namespace Loak.Unity
 
         public string username = null;
         [SerializeField] private string roomPrefix = "LoakTemplate";
-        public int roomCap { get; private set; } = 5;
+        public int roomCap = 5;
         public string roomCode { get; private set; } = null;
         public Dictionary<Guid, Player> connectedPlayers { get; private set; } = new Dictionary<Guid, Player>();
 
@@ -222,6 +222,9 @@ namespace Loak.Unity
 
         public void OnPlayerLeft(IPeer peer)
         {
+            if (!connectedPlayers.ContainsKey(peer.Identifier))
+                return;
+
             Destroy(lobbyListItems[peer.Identifier]);
             lobbyListItems.Remove(peer.Identifier);
             connectedPlayers.Remove(peer.Identifier);

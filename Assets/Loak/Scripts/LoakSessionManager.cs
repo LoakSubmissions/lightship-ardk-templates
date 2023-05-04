@@ -143,7 +143,7 @@ namespace Loak.Unity
 
         private void OnPeerRemoved(PeerRemovedArgs args)
         {
-            OnPeerJoined.Invoke(args.Peer);
+            OnPeerLeft.Invoke(args.Peer);
         }
 
         public void SendToHost(uint tag, string str)
