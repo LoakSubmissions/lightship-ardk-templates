@@ -66,7 +66,7 @@ Anything! The scene included is a barebones ARDK setup that can be used in any w
 
 ### I have questions that aren't answered here.
 
-If you still need help, feel free to reach out to us through our [Discord server](https://discord.gg/y8wzR8MKKk). If your problem is with a Lightship feature and not the Loak tools provided in this template, you may get better results by asking in [Lightship's forum](https://community.lightship.dev/) or [Discord server](https://discord.gg/RM6m4nWmYp).
+If you still need help, feel free to reach out to us through our [Discord server](https://discord.com/invite/bWfpMfH3BK). If your problem is with a Lightship feature and not the Loak tools provided in this template, you may get better results by asking in [Lightship's forum](https://community.lightship.dev/) or [Discord server](https://discord.gg/RM6m4nWmYp).
 
 ## Features
 
@@ -79,7 +79,7 @@ These are the Loak features and tools that we currently provide in this template
 
 ### Roadmap
 
-These are some of the Loak features and tools that we plan to add to this template in the future. Feel free to suggest some in our [Discord server!](https://discord.gg/y8wzR8MKKk)
+These are some of the Loak features and tools that we plan to add to this template in the future. Feel free to suggest some in our [Discord server!](https://discord.com/invite/bWfpMfH3BK)
 
 * **Loak Leaderboards Update** - More flexibility for the leaderboard tool when used outside of the Loak platform.
 * **Mesh Object Placement** - Easy to use solutions for placing objects in the real world.

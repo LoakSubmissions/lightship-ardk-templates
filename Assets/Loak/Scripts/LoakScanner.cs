@@ -94,6 +94,7 @@ namespace Loak.Unity
         {
             if (immediate)
             {
+                scanning = false;
                 scanCanvas.SetActive(false);
                 OnScanEnd.Invoke();
             }
@@ -108,6 +109,7 @@ namespace Loak.Unity
         {
             fillBar.fillAmount = 1f;
             scanText.text = completeString;
+            scanning = false;
 
             yield return new WaitForSeconds(2f);
 

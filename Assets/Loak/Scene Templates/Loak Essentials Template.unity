@@ -880,15 +880,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7454484167964788523, guid: 0cbf559a506345a4a9cf2733c7b64f6d, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7454484167964788523, guid: 0cbf559a506345a4a9cf2733c7b64f6d, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7454484167964788523, guid: 0cbf559a506345a4a9cf2733c7b64f6d, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 897.44666
+      value: 872.1779
       objectReference: {fileID: 0}
     - target: {fileID: 7454484167964788523, guid: 0cbf559a506345a4a9cf2733c7b64f6d, type: 3}
       propertyPath: m_SizeDelta.y
@@ -896,7 +896,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7454484167964788523, guid: 0cbf559a506345a4a9cf2733c7b64f6d, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 448.72333
+      value: 436.08896
       objectReference: {fileID: 0}
     - target: {fileID: 7454484167964788523, guid: 0cbf559a506345a4a9cf2733c7b64f6d, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -1167,6 +1167,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1223136204}
+  - component: {fileID: 1223136205}
   m_Layer: 0
   m_Name: Mesh Root
   m_TagString: Untagged
@@ -1189,6 +1190,21 @@ Transform:
   m_Father: {fileID: 1634304570}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1223136205
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1223136203}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a973c0ccaf364bfa9f35cafca6d1fb9e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _timeToDiscovery: 2
+  _meshSequencePath: Assets/MockMeshes/LivingRoom/iPhone13Pro-LivingRoom
+  _updateInterval: 1
 --- !u!1 &1561841470
 GameObject:
   m_ObjectHideFlags: 0
