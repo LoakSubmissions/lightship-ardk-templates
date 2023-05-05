@@ -1052,6 +1052,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5999606232923253010, guid: bf69b2238bed8e242b56e7a19d836feb, type: 3}
+      propertyPath: m_fontStyle
+      value: 16
+      objectReference: {fileID: 0}
     - target: {fileID: 5999606233194164406, guid: bf69b2238bed8e242b56e7a19d836feb, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -1123,6 +1127,18 @@ PrefabInstance:
     - target: {fileID: 5999606233227999650, guid: bf69b2238bed8e242b56e7a19d836feb, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5999606233232020803, guid: bf69b2238bed8e242b56e7a19d836feb, type: 3}
+      propertyPath: m_ContentType
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5999606233232020803, guid: bf69b2238bed8e242b56e7a19d836feb, type: 3}
+      propertyPath: m_KeyboardType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5999606233232020803, guid: bf69b2238bed8e242b56e7a19d836feb, type: 3}
+      propertyPath: m_CharacterValidation
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 5999606233291299451, guid: bf69b2238bed8e242b56e7a19d836feb, type: 3}
       propertyPath: m_AnchorMax.y

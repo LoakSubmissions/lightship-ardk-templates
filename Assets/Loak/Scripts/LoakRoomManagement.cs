@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using Niantic.ARDK.Extensions;
 using Niantic.ARDK.Networking;
 using TMPro;
@@ -71,7 +72,16 @@ namespace Loak.Unity
 
         private string GenerateRoomCode()
         {
-            return Guid.NewGuid().ToString("n").Substring(0, 4);
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            var random = new System.Random();
+            var result = new StringBuilder(6);
+
+            for (int i = 0; i < 6; i++)
+            {
+                result.Append(chars[random.Next(chars.Length)]);
+            }
+
+            return result.ToString();
         }
 
         public void SetRoomCode(string code)
