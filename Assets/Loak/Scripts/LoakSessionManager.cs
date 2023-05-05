@@ -18,6 +18,8 @@ namespace Loak.Unity
 {
     public class LoakSessionManager : MonoBehaviour
     {
+        public static LoakSessionManager Instance;
+
         public UnityEvent OnSessionJoined;
         public UnityEvent OnSessionStarted;
         public UnityEvent OnSessionLocalized;
@@ -34,6 +36,11 @@ namespace Loak.Unity
         private IARSession arSession;
         private IARNetworking arNetworking;
         private IARWorldTrackingConfiguration configuration;
+
+        void Awake()
+        {
+            Instance = this;
+        }
 
         void Start()
         {
@@ -179,6 +186,25 @@ namespace Loak.Unity
             networking.SendDataToPeer(tag, data, networking.Host, TransportType.ReliableUnordered);
         }
 
+        public void SendToHost(uint tag, Vector3 pos)
+        {
+            if (!networking.IsConnected)
+                return;
+
+            var stream = new MemoryStream();
+
+            using (var serializer = new BinarySerializer(stream))
+            {
+                serializer.Serialize(me.Identifier);
+                serializer.Serialize(1);
+                serializer.Serialize(pos);
+            }
+
+            byte[] data = stream.ToArray();
+
+            networking.SendDataToPeer(tag, data, networking.Host, TransportType.ReliableUnordered);
+        }
+
         public void SendToAll(uint tag, Guid origin, string str)
         {
             if (!networking.IsConnected || !IsHost)
@@ -191,6 +217,25 @@ namespace Loak.Unity
                 serializer.Serialize(origin);
                 serializer.Serialize(1);
                 serializer.Serialize(str);
+            }
+
+            byte[] data = stream.ToArray();
+
+            networking.BroadcastData(tag, data, TransportType.ReliableUnordered);
+        }
+
+        public void SendToAll(uint tag, Guid origin, Vector3 pos)
+        {
+            if (!networking.IsConnected || !IsHost)
+                return;
+
+            var stream = new MemoryStream();
+
+            using (var serializer = new BinarySerializer(stream))
+            {
+                serializer.Serialize(origin);
+                serializer.Serialize(1);
+                serializer.Serialize(pos);
             }
 
             byte[] data = stream.ToArray();

@@ -54,7 +54,7 @@ namespace Loak.Unity
 
         void Start()
         {
-            seshMan = GetComponent<LoakSessionManager>();
+            seshMan = LoakSessionManager.Instance;
 
             canvas = GetComponentInChildren<Canvas>(true);
             modeSelectView = canvas.transform.GetChild(0).gameObject;
