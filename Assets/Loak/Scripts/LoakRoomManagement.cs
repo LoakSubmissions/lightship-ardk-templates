@@ -30,6 +30,7 @@ namespace Loak.Unity
         private GameObject lobbyListPrefab;
         private Dictionary<Guid, GameObject> lobbyListItems = new Dictionary<Guid, GameObject>();
         private Button lobbyPlayButton;
+        private GameObject localizeView;
 
         private LoakSessionManager seshMan;
         private bool creating = false;
@@ -65,6 +66,7 @@ namespace Loak.Unity
             lobbyListParent = lobbyView.transform.GetChild(3).GetChild(2);
             lobbyListPrefab = lobbyListParent.GetChild(1).gameObject;
             lobbyPlayButton = lobbyView.GetComponentInChildren<Button>(true);
+            localizeView = canvas.transform.GetChild(4).gameObject;
         }
 
         private string GenerateRoomCode()
@@ -93,6 +95,20 @@ namespace Loak.Unity
             else if (lobbyView.activeSelf)
             {
                 lobbyView.SetActive(false);
+                seshMan.LeaveSession();
+                connectedPlayers.Clear();
+
+                foreach (var item in lobbyListItems.Values)
+                {
+                    Destroy(item);
+                }
+
+                lobbyListItems.Clear();
+                multiplayerView.SetActive(true);
+            }
+            else if (localizeView.activeSelf)
+            {
+                localizeView.SetActive(false);
                 seshMan.LeaveSession();
                 connectedPlayers.Clear();
 
@@ -187,6 +203,12 @@ namespace Loak.Unity
         }
 
         public void OnRoomStarted()
+        {
+            lobbyView.SetActive(false);
+            localizeView.SetActive(true);
+        }
+
+        public void OnRoomLocalized()
         {
             canvas.enabled = false;
         }

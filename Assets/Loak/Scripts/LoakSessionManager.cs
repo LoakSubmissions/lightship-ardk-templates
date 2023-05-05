@@ -12,6 +12,7 @@ using Niantic.ARDK.AR.Configuration;
 using System.IO;
 using Niantic.ARDK.Utilities.BinarySerialization;
 using System;
+using Niantic.ARDK.AR.Networking.ARNetworkingEventArgs;
 
 namespace Loak.Unity
 {
@@ -19,6 +20,7 @@ namespace Loak.Unity
     {
         public UnityEvent OnSessionJoined;
         public UnityEvent OnSessionStarted;
+        public UnityEvent OnSessionLocalized;
         public UnityEvent<IPeer> OnPeerJoined;
         public UnityEvent<IPeer> OnPeerLeft;
         public UnityEvent<uint, Guid, object[]> OnDataRecieved;
@@ -69,7 +71,10 @@ namespace Loak.Unity
             }
 
             if (arNetworking == null)
+            {
                 arNetworking = ARNetworkingFactory.Create(arSession, networking);
+                arNetworking.PeerStateReceived += OnPeerStateReceived;
+            }
 
             if (configuration == null)
             {
@@ -139,6 +144,15 @@ namespace Loak.Unity
         private void OnPeerAdded(PeerAddedArgs args)
         {
             OnPeerJoined.Invoke(args.Peer);
+        }
+
+        private void OnPeerStateReceived(PeerStateReceivedArgs args)
+        {
+            if (args.Peer == me)
+            {
+                if (args.State == PeerState.Localizing)
+                    OnSessionLocalized.Invoke();
+            }
         }
 
         private void OnPeerRemoved(PeerRemovedArgs args)
