@@ -12,7 +12,10 @@ namespace Loak.Examples
 
         public void SendPlace(GameObject obj)
         {
-            LoakSessionManager.Instance.SendToHost(LoakTapPlace.Instance.allowMultiple ? (uint)4 : (uint)5, obj.transform.position);
+            if (LoakSessionManager.Instance.IsHost)
+                LoakSessionManager.Instance.SendToAll(LoakTapPlace.Instance.allowMultiple ? (uint)4 : (uint)5, LoakSessionManager.Instance.me.Identifier, obj.transform.position);
+            else
+                LoakSessionManager.Instance.SendToHost(LoakTapPlace.Instance.allowMultiple ? (uint)4 : (uint)5, obj.transform.position);
         }
 
         public void OnDataRecieved(uint tag, Guid sender, object[] data)

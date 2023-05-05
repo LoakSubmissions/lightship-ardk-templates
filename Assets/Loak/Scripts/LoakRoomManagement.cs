@@ -86,7 +86,7 @@ namespace Loak.Unity
 
         public void SetRoomCode(string code)
         {
-            roomCode = code;
+            roomCode = code.ToUpper();
             lobbyCode.text = roomCode;
         }
 

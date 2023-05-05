@@ -36,6 +36,7 @@ namespace Loak.Unity
         private IARSession arSession;
         private IARNetworking arNetworking;
         private IARWorldTrackingConfiguration configuration;
+        private PeerState prevState;
 
         void Awake()
         {
@@ -157,8 +158,11 @@ namespace Loak.Unity
         {
             if (args.Peer == me)
             {
-                if (args.State == PeerState.Localizing)
+                if (args.State == PeerState.Stable && (prevState == PeerState.WaitingForLocalizationData || prevState == PeerState.Localizing))
                     OnSessionLocalized.Invoke();
+
+                prevState = args.State;
+                Debug.LogError(prevState);
             }
         }
 

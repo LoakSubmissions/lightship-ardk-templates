@@ -781,6 +781,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5509052973549280648, guid: bf69b2238bed8e242b56e7a19d836feb, type: 3}
+      propertyPath: OnDataRecieved.m_PersistentCalls.m_Calls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5509052973549280648, guid: bf69b2238bed8e242b56e7a19d836feb, type: 3}
       propertyPath: OnSessionJoined.m_PersistentCalls.m_Calls.Array.size
       value: 2
       objectReference: {fileID: 0}
@@ -793,9 +797,17 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5509052973549280648, guid: bf69b2238bed8e242b56e7a19d836feb, type: 3}
+      propertyPath: OnDataRecieved.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5509052973549280648, guid: bf69b2238bed8e242b56e7a19d836feb, type: 3}
       propertyPath: OnSessionJoined.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5509052973549280648, guid: bf69b2238bed8e242b56e7a19d836feb, type: 3}
+      propertyPath: OnDataRecieved.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 118222170}
     - target: {fileID: 5509052973549280648, guid: bf69b2238bed8e242b56e7a19d836feb, type: 3}
       propertyPath: OnSessionStarted.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
       value: 1
@@ -812,6 +824,14 @@ PrefabInstance:
       propertyPath: OnSessionStarted.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
       objectReference: {fileID: 2113538440}
+    - target: {fileID: 5509052973549280648, guid: bf69b2238bed8e242b56e7a19d836feb, type: 3}
+      propertyPath: OnDataRecieved.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5509052973549280648, guid: bf69b2238bed8e242b56e7a19d836feb, type: 3}
+      propertyPath: OnDataRecieved.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: OnDataRecieved
+      objectReference: {fileID: 0}
     - target: {fileID: 5509052973549280648, guid: bf69b2238bed8e242b56e7a19d836feb, type: 3}
       propertyPath: OnSessionJoined.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
       value: 2
@@ -841,6 +861,10 @@ PrefabInstance:
       value: StartPlacement
       objectReference: {fileID: 0}
     - target: {fileID: 5509052973549280648, guid: bf69b2238bed8e242b56e7a19d836feb, type: 3}
+      propertyPath: OnDataRecieved.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: Loak.Examples.SharedARExample, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5509052973549280648, guid: bf69b2238bed8e242b56e7a19d836feb, type: 3}
       propertyPath: OnSessionJoined.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
       value: Niantic.ARDK.Extensions.UnityLifecycleDriver, ARDK
       objectReference: {fileID: 0}
@@ -851,6 +875,10 @@ PrefabInstance:
     - target: {fileID: 5509052973549280648, guid: bf69b2238bed8e242b56e7a19d836feb, type: 3}
       propertyPath: OnSessionLocalized.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
       value: LoakTapPlace, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5509052973549280648, guid: bf69b2238bed8e242b56e7a19d836feb, type: 3}
+      propertyPath: OnDataRecieved.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 5509052973549280648, guid: bf69b2238bed8e242b56e7a19d836feb, type: 3}
       propertyPath: OnSessionJoined.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
