@@ -129,6 +129,8 @@ namespace Loak.Unity
 
                 lobbyListItems.Clear();
                 multiplayerView.SetActive(true);
+
+                seshMan.StartSoloSession();
             }
         }
 
@@ -140,7 +142,7 @@ namespace Loak.Unity
 
         public void PlaySolo()
         {
-            seshMan.StartSoloSession();
+            // seshMan.StartSoloSession();
             canvas.enabled = false;
         }
 
@@ -193,7 +195,7 @@ namespace Loak.Unity
 
         private void JoinAccepted()
         {
-            seshMan.SendToHost(0, username);
+            seshMan.SendToHost(0, new object[] {username});
 
             multiplayerView.SetActive(false);
             joinView.SetActive(false);
@@ -236,20 +238,21 @@ namespace Loak.Unity
             if (seshMan.sessionBegan)
                 accepted = false;
 
-            seshMan.SendToPeer(2, peer, accepted);
+            seshMan.SendToPeer(2, peer, new object[] {accepted});
 
             if (!accepted)
                 return;
 
-            (List<Guid>, List<string>) payload = (new List<Guid>(), new List<string>());
+            List<Guid> idList = new List<Guid>();
+            List<string> nameList = new List<string>();
 
             foreach (KeyValuePair<Guid, Player> pair in connectedPlayers)
             {
-                payload.Item1.Add(pair.Key);
-                payload.Item2.Add(pair.Value.username);
+                idList.Add(pair.Key);
+                nameList.Add(pair.Value.username);
             }
 
-            seshMan.SendToPeer(1, peer, payload);
+            seshMan.SendToPeer(1, peer, new object[] {idList.ToArray(), nameList.ToArray()});
         }
 
         public void OnPlayerLeft(IPeer peer)
@@ -280,19 +283,20 @@ namespace Loak.Unity
                     newEntry.SetActive(true);
 
                     if (seshMan.IsHost)
-                        seshMan.SendToAll(0, sender, username);
+                        seshMan.SendToAll(0, sender, new object[] {username});
                     
                     break;
 
                 case 1:
-                    var players = ((Guid[])data[0], (string[])data[1]);
+                    var idList = (Guid[])data[0];
+                    var nameList = (string[])data[1];
 
-                    for (int i = 0; i < players.Item1.Length; i++)
+                    for (int i = 0; i < idList.Length; i++)
                     {
-                        username = players.Item2[i];
+                        username = nameList[i];
                         newEntry = Instantiate(lobbyListPrefab, lobbyListParent);
-                        lobbyListItems.Add(players.Item1[i], newEntry);
-                        connectedPlayers[players.Item1[i]] = new Player(players.Item1[i], username);
+                        lobbyListItems.Add(idList[i], newEntry);
+                        connectedPlayers[idList[i]] = new Player(idList[i], username);
 
                         if (username == null || username == "")
                             username = $"Player {connectedPlayers.Count}";

@@ -20,6 +20,8 @@ namespace Loak.Unity
     {
         public static LoakSessionManager Instance;
 
+        public bool arOnStart = false;
+
         public UnityEvent OnSessionJoined;
         public UnityEvent OnSessionStarted;
         public UnityEvent OnSessionLocalized;
@@ -46,6 +48,9 @@ namespace Loak.Unity
         void Start()
         {
             Initialize();
+
+            if (arOnStart)
+                StartSoloSession();
         }
 
         private void Initialize()
@@ -134,8 +139,6 @@ namespace Loak.Unity
 
             configuration.IsSharedExperienceEnabled = false;
             arSession.Run(configuration);
-            OnSessionStarted.Invoke();
-            sessionBegan = true;
         }
 
         public void StartMultiplayerSession()
@@ -144,7 +147,7 @@ namespace Loak.Unity
                 return;
 
             configuration.IsSharedExperienceEnabled = true;
-            arSession.Run(configuration);
+            arSession.Run(configuration, ARSessionRunOptions.None);
             OnSessionStarted.Invoke();
             sessionBegan = true;
         }
@@ -162,7 +165,6 @@ namespace Loak.Unity
                     OnSessionLocalized.Invoke();
 
                 prevState = args.State;
-                Debug.LogError(prevState);
             }
         }
 
@@ -171,7 +173,7 @@ namespace Loak.Unity
             OnPeerLeft.Invoke(args.Peer);
         }
 
-        public void SendToHost(uint tag, string str)
+        public void SendToHost(uint tag, object[] objs, TransportType tt = TransportType.UnreliableUnordered)
         {
             if (!networking.IsConnected)
                 return;
@@ -181,35 +183,15 @@ namespace Loak.Unity
             using (var serializer = new BinarySerializer(stream))
             {
                 serializer.Serialize(me.Identifier);
-                serializer.Serialize(1);
-                serializer.Serialize(str);
+                serializer.Serialize(objs);
             }
 
             byte[] data = stream.ToArray();
 
-            networking.SendDataToPeer(tag, data, networking.Host, TransportType.ReliableUnordered);
+            networking.SendDataToPeer(tag, data, networking.Host, tt);
         }
 
-        public void SendToHost(uint tag, Vector3 pos)
-        {
-            if (!networking.IsConnected)
-                return;
-
-            var stream = new MemoryStream();
-
-            using (var serializer = new BinarySerializer(stream))
-            {
-                serializer.Serialize(me.Identifier);
-                serializer.Serialize(1);
-                serializer.Serialize(pos);
-            }
-
-            byte[] data = stream.ToArray();
-
-            networking.SendDataToPeer(tag, data, networking.Host, TransportType.ReliableUnordered);
-        }
-
-        public void SendToAll(uint tag, Guid origin, string str)
+        public void SendToAll(uint tag, Guid origin, object[] objs, TransportType tt = TransportType.UnreliableUnordered)
         {
             if (!networking.IsConnected || !IsHost)
                 return;
@@ -219,35 +201,15 @@ namespace Loak.Unity
             using (var serializer = new BinarySerializer(stream))
             {
                 serializer.Serialize(origin);
-                serializer.Serialize(1);
-                serializer.Serialize(str);
+                serializer.Serialize(objs);
             }
 
             byte[] data = stream.ToArray();
 
-            networking.BroadcastData(tag, data, TransportType.ReliableUnordered);
+            networking.BroadcastData(tag, data, tt);
         }
 
-        public void SendToAll(uint tag, Guid origin, Vector3 pos)
-        {
-            if (!networking.IsConnected || !IsHost)
-                return;
-
-            var stream = new MemoryStream();
-
-            using (var serializer = new BinarySerializer(stream))
-            {
-                serializer.Serialize(origin);
-                serializer.Serialize(1);
-                serializer.Serialize(pos);
-            }
-
-            byte[] data = stream.ToArray();
-
-            networking.BroadcastData(tag, data, TransportType.ReliableUnordered);
-        }
-
-        public void SendToPeer(uint tag, IPeer target, (List<Guid>, List<string>) payload)
+        public void SendToPeer(uint tag, IPeer target, object[] objs, TransportType tt = TransportType.UnreliableUnordered)
         {
             if (!networking.IsConnected || !IsHost)
                 return;
@@ -257,50 +219,24 @@ namespace Loak.Unity
             using (var serializer = new BinarySerializer(stream))
             {
                 serializer.Serialize(me.Identifier);
-                serializer.Serialize(2);
-                serializer.Serialize(payload.Item1.ToArray());
-                serializer.Serialize(payload.Item2.ToArray());
+                serializer.Serialize(objs);
             }
 
             byte[] data = stream.ToArray();
 
-            networking.SendDataToPeer(tag, data, target, TransportType.ReliableUnordered);
-        }
-
-        public void SendToPeer(uint tag, IPeer target, bool payload)
-        {
-            if (!networking.IsConnected || !IsHost)
-                return;
-
-            var stream = new MemoryStream();
-
-            using (var serializer = new BinarySerializer(stream))
-            {
-                serializer.Serialize(me.Identifier);
-                serializer.Serialize(1);
-                serializer.Serialize(payload);
-            }
-
-            byte[] data = stream.ToArray();
-
-            networking.SendDataToPeer(tag, data, target, TransportType.ReliableUnordered);
+            networking.SendDataToPeer(tag, data, target, tt);
         }
 
         private void OnPeerDataRecieved(PeerDataReceivedArgs args)
         {
             var stream = new MemoryStream(args.CopyData());
             Guid sender;
-            int length;
             object[] data;
 
             using (var deserializer = new BinaryDeserializer(stream))
             {
                 sender = (Guid)deserializer.Deserialize();
-                length = (int)deserializer.Deserialize();
-
-                data = new object[length];
-                for (int i = 0; i < length; i++)
-                    data[i] = deserializer.Deserialize();
+                data = (object[])deserializer.Deserialize();
             }
 
             OnDataRecieved.Invoke(args.Tag, sender, data);

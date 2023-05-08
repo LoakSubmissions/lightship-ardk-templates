@@ -13,9 +13,9 @@ namespace Loak.Examples
         public void SendPlace(GameObject obj)
         {
             if (LoakSessionManager.Instance.IsHost)
-                LoakSessionManager.Instance.SendToAll(LoakTapPlace.Instance.allowMultiple ? (uint)4 : (uint)5, LoakSessionManager.Instance.me.Identifier, obj.transform.position);
+                LoakSessionManager.Instance.SendToAll(LoakTapPlace.Instance.allowMultiple ? (uint)4 : (uint)5, LoakSessionManager.Instance.me.Identifier, new object[] {obj.transform.position});
             else
-                LoakSessionManager.Instance.SendToHost(LoakTapPlace.Instance.allowMultiple ? (uint)4 : (uint)5, obj.transform.position);
+                LoakSessionManager.Instance.SendToHost(LoakTapPlace.Instance.allowMultiple ? (uint)4 : (uint)5, new object[] {obj.transform.position});
         }
 
         public void OnDataRecieved(uint tag, Guid sender, object[] data)
@@ -27,7 +27,7 @@ namespace Loak.Examples
                     peerObjects[sender].SetActive(true);
 
                     if (LoakSessionManager.Instance.IsHost)
-                        LoakSessionManager.Instance.SendToAll(4, sender, (Vector3)data[0]);
+                        LoakSessionManager.Instance.SendToAll(4, sender, data);
 
                     break;
                 
@@ -40,7 +40,7 @@ namespace Loak.Examples
                     instance.transform.position = (Vector3)data[0];
 
                     if (LoakSessionManager.Instance.IsHost)
-                        LoakSessionManager.Instance.SendToAll(5, sender, (Vector3)data[0]);
+                        LoakSessionManager.Instance.SendToAll(5, sender, data);
 
                     break;
             }
