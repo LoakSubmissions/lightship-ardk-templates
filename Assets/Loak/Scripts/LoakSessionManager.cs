@@ -179,6 +179,8 @@ namespace Loak.Unity
             if (!networking.IsConnected)
                 return;
 
+            LeaveSession();
+
             configuration.IsSharedExperienceEnabled = true;
             arSession.Run(configuration, ARSessionRunOptions.None);
             OnSessionStarted.Invoke();

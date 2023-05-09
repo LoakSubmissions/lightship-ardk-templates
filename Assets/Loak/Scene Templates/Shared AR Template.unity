@@ -490,7 +490,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80198c6deee0a4c5c9096accbcac4119, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _manageUsingUnityLifecycle: 1
+  _manageUsingUnityLifecycle: 0
   _camera: {fileID: 1535421100}
   _keyFrameFrequency: 20
   _interpolation: 2
@@ -706,11 +706,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4121737292843690, guid: 924a7268bfe9947e095cce9a99ed0458, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 402
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4121737292843690, guid: 924a7268bfe9947e095cce9a99ed0458, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 288
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4121737292843690, guid: 924a7268bfe9947e095cce9a99ed0458, type: 3}
       propertyPath: m_LocalPosition.z
@@ -839,7 +839,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5509052973549280648, guid: bf69b2238bed8e242b56e7a19d836feb, type: 3}
       propertyPath: OnSessionStarted.m_PersistentCalls.m_Calls.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5509052973549280648, guid: bf69b2238bed8e242b56e7a19d836feb, type: 3}
       propertyPath: OnSessionLocalized.m_PersistentCalls.m_Calls.Array.size
@@ -862,6 +862,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5509052973549280648, guid: bf69b2238bed8e242b56e7a19d836feb, type: 3}
+      propertyPath: OnSessionStarted.m_PersistentCalls.m_Calls.Array.data[2].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5509052973549280648, guid: bf69b2238bed8e242b56e7a19d836feb, type: 3}
       propertyPath: OnSessionJoined.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
       objectReference: {fileID: 2113538440}
@@ -871,6 +875,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5509052973549280648, guid: bf69b2238bed8e242b56e7a19d836feb, type: 3}
       propertyPath: OnSessionStarted.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 1535421101}
+    - target: {fileID: 5509052973549280648, guid: bf69b2238bed8e242b56e7a19d836feb, type: 3}
+      propertyPath: OnSessionStarted.m_PersistentCalls.m_Calls.Array.data[2].m_Target
       value: 
       objectReference: {fileID: 2113538440}
     - target: {fileID: 5509052973549280648, guid: bf69b2238bed8e242b56e7a19d836feb, type: 3}
@@ -898,7 +906,15 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5509052973549280648, guid: bf69b2238bed8e242b56e7a19d836feb, type: 3}
+      propertyPath: OnSessionStarted.m_PersistentCalls.m_Calls.Array.data[2].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5509052973549280648, guid: bf69b2238bed8e242b56e7a19d836feb, type: 3}
       propertyPath: OnSessionStarted.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: EnableFeatures
+      objectReference: {fileID: 0}
+    - target: {fileID: 5509052973549280648, guid: bf69b2238bed8e242b56e7a19d836feb, type: 3}
+      propertyPath: OnSessionStarted.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
       value: EnableFeatures
       objectReference: {fileID: 0}
     - target: {fileID: 5509052973549280648, guid: bf69b2238bed8e242b56e7a19d836feb, type: 3}
@@ -922,6 +938,10 @@ PrefabInstance:
       value: Niantic.ARDK.Extensions.UnityLifecycleDriver, ARDK
       objectReference: {fileID: 0}
     - target: {fileID: 5509052973549280648, guid: bf69b2238bed8e242b56e7a19d836feb, type: 3}
+      propertyPath: OnSessionStarted.m_PersistentCalls.m_Calls.Array.data[2].m_TargetAssemblyTypeName
+      value: Niantic.ARDK.Extensions.UnityLifecycleDriver, ARDK
+      objectReference: {fileID: 0}
+    - target: {fileID: 5509052973549280648, guid: bf69b2238bed8e242b56e7a19d836feb, type: 3}
       propertyPath: OnSessionLocalized.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
       value: LoakTapPlace, Assembly-CSharp
       objectReference: {fileID: 0}
@@ -935,6 +955,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5509052973549280648, guid: bf69b2238bed8e242b56e7a19d836feb, type: 3}
       propertyPath: OnSessionStarted.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 5509052973549280648, guid: bf69b2238bed8e242b56e7a19d836feb, type: 3}
+      propertyPath: OnSessionStarted.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 5509052973549280648, guid: bf69b2238bed8e242b56e7a19d836feb, type: 3}
