@@ -14,11 +14,14 @@ namespace Loak.Unity
     {
         public static LoakRoomManagement Instance;
 
-        public string username = null;
+        [Tooltip("Should be set to the name of your game.")]
         [SerializeField] private string roomPrefix = "LoakTemplate";
+        [Tooltip("Max number of users per room. Lightship has problems with more than 5.")]
         public int roomCap = 5;
-        public string roomCode { get; private set; } = null;
-        public Dictionary<Guid, Player> connectedPlayers { get; private set; } = new Dictionary<Guid, Player>();
+
+        [HideInInspector] public string username = null; // Username of the local player.
+        public string roomCode { get; private set; } = null; // Unique code for matching players to a room.
+        public Dictionary<Guid, Player> connectedPlayers { get; private set; } = new Dictionary<Guid, Player>(); // Collection of all players currently in the room.
 
         private Canvas canvas;
         private GameObject modeSelectView;
@@ -36,6 +39,7 @@ namespace Loak.Unity
         private LoakSessionManager seshMan;
         private bool creating = false;
 
+        // Nested class that just represents a connected player.
         public class Player
         {
             public Guid identifier;
@@ -48,11 +52,13 @@ namespace Loak.Unity
             }
         }
 
+        // Just sets up the Singleton reference.
         void Awake()
         {
             Instance = this;
         }
 
+        // Grabs all UI references.
         void Start()
         {
             seshMan = LoakSessionManager.Instance;
@@ -70,7 +76,10 @@ namespace Loak.Unity
             localizeView = canvas.transform.GetChild(4).gameObject;
         }
 
-        private string GenerateRoomCode()
+        /// <summary>
+        /// Generates an alphanumeric 6 digit code.
+        /// </summary>
+        public string GenerateRoomCode()
         {
             const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
             var random = new System.Random();
@@ -84,12 +93,19 @@ namespace Loak.Unity
             return result.ToString();
         }
 
+        /// <summary>
+        /// Sets the room code used when joining a session. Is overridden by editing the inputField and by CreateRoom.
+        /// </summary>
+        /// <param name="code">What to set the room code to.</param>
         public void SetRoomCode(string code)
         {
             roomCode = code.ToUpper();
             lobbyCode.text = roomCode;
         }
 
+        /// <summary>
+        /// Regresses back through the menu.
+        /// </summary>
         public void Back()
         {
             if (multiplayerView.activeSelf)
@@ -134,18 +150,27 @@ namespace Loak.Unity
             }
         }
 
+        /// <summary>
+        /// Progresses from mode select to multiplayer view.
+        /// </summary>
         public void PlayWithFriends()
         {
             modeSelectView.SetActive(false);
             multiplayerView.SetActive(true);
         }
 
+        /// <summary>
+        /// Starts a solo AR session.
+        /// </summary>
         public void PlaySolo()
         {
             // seshMan.StartSoloSession();
             canvas.enabled = false;
         }
 
+        /// <summary>
+        /// Attempts to create and join a new room with a random room code.
+        /// </summary>
         public void CreateRoom()
         {
             SetRoomCode(GenerateRoomCode());
@@ -153,6 +178,9 @@ namespace Loak.Unity
             seshMan.JoinSession(roomPrefix + roomCode);
         }
 
+        /// <summary>
+        /// Progresses from multiplayer to join view.
+        /// </summary>
         public void JoinRoom()
         {
             multiplayerView.SetActive(false);
@@ -160,6 +188,9 @@ namespace Loak.Unity
             joinView.SetActive(true);
         }
 
+        /// <summary>
+        /// Attempts to join an existing room with roomCode.
+        /// </summary>
         public void SubmitCode()
         {
             if (joinInput.text == null || joinInput.text == "")
@@ -172,6 +203,7 @@ namespace Loak.Unity
             seshMan.JoinSession(roomPrefix + roomCode);
         }
 
+        // Called when we connect to a room.
         public void OnRoomJoined()
         {
             if (creating && !seshMan.IsHost)
@@ -193,6 +225,7 @@ namespace Loak.Unity
                 JoinAccepted();
         }
 
+        // Called when we are confirmed to join the room. Sets up lobby and sends username to host.
         private void JoinAccepted()
         {
             seshMan.SendToHost(0, new object[] {username});
@@ -208,23 +241,29 @@ namespace Loak.Unity
             lobbyCode.text = roomCode;
         }
 
+        /// <summary>
+        /// Starts localization and AR for all joined peers.
+        /// </summary>
         public void StartRoom()
         {
             seshMan.StartMultiplayerSession();
             seshMan.SendToAll(3, seshMan.me.Identifier, null);
         }
 
+        // Called when the host successfully starts the room.
         public void OnRoomStarted()
         {
             lobbyView.SetActive(false);
             localizeView.SetActive(true);
         }
 
+        // Called when the room finishes localizing.
         public void OnRoomLocalized()
         {
             canvas.enabled = false;
         }
 
+        // Called when another player attempts to join the room. Validates and accepts or rejects the join request.
         public void OnPlayerJoined(IPeer peer)
         {
             if (!seshMan.IsHost)
@@ -255,6 +294,7 @@ namespace Loak.Unity
             seshMan.SendToPeer(1, peer, new object[] {idList.ToArray(), nameList.ToArray()});
         }
 
+        // Called when a player leaves the room. Clears their name from lobby list.
         public void OnPlayerLeft(IPeer peer)
         {
             if (!connectedPlayers.ContainsKey(peer.Identifier))
@@ -265,6 +305,7 @@ namespace Loak.Unity
             connectedPlayers.Remove(peer.Identifier);
         }
 
+        // Called when we recieve data. Parses and acts on the data based on the tag.
         public void OnDataRecieved(uint tag, Guid sender, object[] data)
         {
             switch (tag)
