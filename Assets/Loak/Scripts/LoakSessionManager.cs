@@ -59,7 +59,10 @@ namespace Loak.Unity
             Initialize();
 
             if (arOnStart)
-                StartSoloSession();
+            {
+                configuration.IsSharedExperienceEnabled = false;
+                arSession.Run(configuration);
+            }
         }
 
         /// <summary>
@@ -169,6 +172,7 @@ namespace Loak.Unity
 
             configuration.IsSharedExperienceEnabled = false;
             arSession.Run(configuration);
+            OnSessionStarted.Invoke();
         }
 
         /// <summary>
@@ -179,9 +183,12 @@ namespace Loak.Unity
             if (!networking.IsConnected)
                 return;
 
-            arSession.Dispose();
-            arSession = null;
-            Initialize();
+            if (arSession.State == ARSessionState.Running || arSession.State == ARSessionState.Paused)
+            {
+                arSession.Dispose();
+                arSession = null;
+                Initialize();
+            }
 
             configuration.IsSharedExperienceEnabled = true;
             arSession.Run(configuration, ARSessionRunOptions.None);

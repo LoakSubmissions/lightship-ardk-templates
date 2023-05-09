@@ -44,6 +44,7 @@ Scene templates make it easy to get building with Lightship ARDK
 For information about the scene templates we provide, check them out at the links below:
 * [Empty Template](Assets/Loak/Scene%20Templates/Empty%20Template.md)
 * [Meshing Template](Assets/Loak/Scene%20Templates/Meshing%20Template.md)
+* [Shared AR Template](Assets/Loak/Scene%20Templates/Shared%20AR%20Template.md)
 * [Loak Essentials](Assets/Loak/Scene%20Templates/Loak%20Essentials.md)
 
 ## Building

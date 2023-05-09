@@ -495,7 +495,7 @@ MonoBehaviour:
   _keyFrameFrequency: 20
   _interpolation: 2
   _interpolationPreference: 0.9
-  _occlusionMode: 3
+  _occlusionMode: 0
   _textureFilterMode: 0
   _stabilizeOcclusionsExperimental: 0
 --- !u!1 &1561841470

@@ -164,7 +164,7 @@ namespace Loak.Unity
         /// </summary>
         public void PlaySolo()
         {
-            // seshMan.StartSoloSession();
+            seshMan.StartSoloSession();
             canvas.enabled = false;
         }
 
