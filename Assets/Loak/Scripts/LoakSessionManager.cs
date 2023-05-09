@@ -205,7 +205,6 @@ namespace Loak.Unity
         // Called when a peer or self changes state. Invokes OnSessionLocalized if self finishes localizing and becomes stable.
         private void OnPeerStateReceived(PeerStateReceivedArgs args)
         {
-            Debug.LogError(args.State);
             if (args.Peer == me)
             {
                 if (args.State == PeerState.Stable && (prevState == PeerState.WaitingForLocalizationData || prevState == PeerState.Localizing))
