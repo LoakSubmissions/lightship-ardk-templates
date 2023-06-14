@@ -168,10 +168,7 @@ namespace Loak.Unity
                 return new List<LeaderboardModel>();
             }
 
-            if(leaderboard == null)
-                return new List<LeaderboardModel>();
-
-            return leaderboard;
+            return leaderboard ?? new List<LeaderboardModel>();
         }
 
         // public int GetLeaderboardRank(string worldID, User user)
